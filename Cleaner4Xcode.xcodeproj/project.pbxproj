@@ -19,6 +19,7 @@
 		B4096D5923389805006E0959 /* ItemGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4096D5823389805006E0959 /* ItemGroup.swift */; };
 		B4096D5D2338983F006E0959 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4096D5C2338983F006E0959 /* DataStore.swift */; };
 		B44C6E632338C86D0087CE17 /* strings.strings in Resources */ = {isa = PBXBuildFile; fileRef = B44C6E652338C86D0087CE17 /* strings.strings */; };
+		B44C6E692338DD120087CE17 /* FileDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44C6E682338DD120087CE17 /* FileDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		B44C6E642338C86D0087CE17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/strings.strings; sourceTree = "<group>"; };
 		B44C6E662338C8B50087CE17 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		B44C6E672338C8B50087CE17 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/strings.strings"; sourceTree = "<group>"; };
+		B44C6E682338DD120087CE17 /* FileDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 		B4096D17233887E1006E0959 = {
 			isa = PBXGroup;
 			children = (
+				B44C6E682338DD120087CE17 /* FileDataManager.swift */,
 				B44C6E652338C86D0087CE17 /* strings.strings */,
 				B4096D5C2338983F006E0959 /* DataStore.swift */,
 				B4096D5523389757006E0959 /* Components */,
@@ -304,6 +307,7 @@
 				B4096D26233887E1006E0959 /* ContentView.swift in Sources */,
 				B4096D5D2338983F006E0959 /* DataStore.swift in Sources */,
 				B4096D5723389769006E0959 /* SideBarView.swift in Sources */,
+				B44C6E692338DD120087CE17 /* FileDataManager.swift in Sources */,
 				B4096D5923389805006E0959 /* ItemGroup.swift in Sources */,
 				B4096D5423388820006E0959 /* MainWindow.swift in Sources */,
 				B4096D24233887E1006E0959 /* AppDelegate.swift in Sources */,
