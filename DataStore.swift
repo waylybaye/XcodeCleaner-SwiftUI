@@ -59,7 +59,7 @@ func humanize(_ fileSize: UInt64) -> String{
 enum AnalysisGroup: String{
     case archives, simulators, iosDeviceSupport, watchOsDeviceSupport, derivedData;
     
-    func describe() -> (String, String) {
+    func describe() -> (title: String, summary: String) {
         switch self {
         case .archives:
             return ("Archives", "analysis.archives.summary")
@@ -70,7 +70,7 @@ enum AnalysisGroup: String{
         case .derivedData:
             return ("DerivedData", "analysis.derivedData.summary")
             //        default:
-            //            ""
+        //            ""
         case .watchOsDeviceSupport:
             return ("watchOS DeviceSupport", "analysis.derivedData.summary")
         }
@@ -108,114 +108,111 @@ class AppData: ObservableObject {
     @Published var archives = Analysis(group: .archives)
     @Published var simulators = Analysis(group: .simulators)
     @Published var derivedData = Analysis(group: .derivedData)
+    
     @Published var activeGroup: AnalysisGroup?
+    @Published var selectedGroup: Analysis?
     
-    var chosenDeveloperPath: String?
+    @Published var selectedDeveloperPath: String?
     
-    func start(developerPath: URL){
-        
+    @Published var isAnalyzing: Bool = false
+    @Published var totalSize: UInt64 = 0
+    @Published var totalCount: Int = 0
+    @Published var analyzedCount: Int = 0
+    
+    var progress: Double {
+        return totalCount == 0 ? 0 : Double(analyzedCount) / Double(totalCount)
     }
     
-
-    func refresh(){
-        if chosenDeveloperPath == nil{
-            return
+    var groups: [(Analysis, String)] {
+        [
+            (iosDeviceSupport, "Xcode/iOS DeviceSupport/"),
+            (watchOsDeviceSupport, "Xcode/watchOS DeviceSupport/"),
+            (derivedData, "Xcode/DerivedData/"),
+            (archives, "Xcode/Archives/"),
+            (simulators, "CoreSimulator/Devices/"),
+        ]
+    }
+    
+    init() {
+        if let path = UserDefaults.standard.string(forKey: "selectedDeveloperPath") {
+            self.selectedDeveloperPath = path
         }
+    }
+    
+    func analyze() {
+        isAnalyzing = true
+        totalSize = 0
+        totalCount = 0
+        analyzedCount = 0
         
-        let xcodePath = chosenDeveloperPath! + "Xcode/";
-        self.calculateSubDirectory(xcodePath + "iOS DeviceSupport/", .iosDeviceSupport);
-        self.calculateSubDirectory(xcodePath + "DerivedData/", .derivedData);
-        self.calculateSubDirectory(xcodePath + "Archives/", .archives);
-        self.calculateSubDirectory(chosenDeveloperPath! + "CoreSimulator/Devices/", .simulators);
+        if let path = self.selectedDeveloperPath {
+            for (analysis, subPath) in groups {
+                analyzeGroup(analysis: analysis, developerPath: path + subPath)
+            }
+        }
     }
     
-    func updateProgress(){
-//        DispatchQueue.main.async {
-//            for (key, tuple) in self.progress{
-//                var view: GroupSummaryView = self.groupDeviceSupport
-//                var totalSize: UInt64 = 0;
-//
-//                switch key{
-//                case .deviceSupport:
-//                    view = self.groupDeviceSupport
-//                case .deviredData:
-//                    view = self.groupDeviredData
-//                case .simulators:
-//                    view = self.groupSimulators
-//                case .archives:
-//                    view = self.groupArchives
-//                }
-//
-//                if tuple.finished == tuple.total{
-//                    view.progressBar.isHidden = true
-//                } else {
-//                    view.progressBar.startAnimation(view)
-//                    view.progressBar.isHidden = false
-//                    view.progressBar.doubleValue = Double(tuple.finished * 100 / (tuple.total > 0 ? tuple.total : 1))
-//                }
-//
-//                for tuple in self.calculatedData[key]!{
-//                    totalSize += tuple.size;
-//                }
-//
-//                view.totalSizeField.stringValue = humanize(totalSize)
-//            }
-//
-//            if !self.currentPanel.isEmpty{
-//                self.tableView.reloadData()
-//            }
-//        }
+    func analyzeGroup(analysis: Analysis, developerPath path: String){
+        do{
+            let fm = FileHelper.standard
+            let subDirectories = try fm.listDirectory(path, onlyDirectory: true)
+            analysis.totalSize = 0
+            analysis.itemsCount = subDirectories.count
+            analysis.analyzedCount = 0
+            analysis.progress = 0
+            
+            totalCount += analysis.itemsCount
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                do{
+                    for var subDirectory in subDirectories{
+                        if !subDirectory.hasSuffix("/"){
+                            subDirectory += "/"
+                        }
+                        
+                        let totalSize = try fm.getDirectorySize(subDirectory)
+                        
+                        var display = String(subDirectory.split(separator: "/").last!)
+                        
+                        if analysis.group == .simulators {
+                            if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
+                                let name: String = plist["name"] as! String
+                                let uuid: String? = plist["UUID"] as? String
+                                let version = String((plist["runtime"] as! String).split(separator: ".").last!)
+                                //                                version = version.replacingOccurrences(of: "-", with: ".")
+                                display = "\(name) (\(version))"
+                            }
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.objectWillChange.send()
+                            
+                            analysis.items.append(
+                                AnalysisItem(path: subDirectory, displayName: display, totalSize: totalSize)
+                            )
+                            
+                            analysis.items.sort {
+                                $0.totalSize > $1.totalSize
+                            }
+                            
+                            analysis.analyzedCount += 1
+                            analysis.totalSize += totalSize
+                            analysis.progress = Double(analysis.analyzedCount) / Double(analysis.itemsCount)
+                            
+                            self.analyzedCount += 1
+                            self.totalSize += totalSize
+                            
+                            if self.analyzedCount == self.totalCount {
+                                self.isAnalyzing = false
+                            }
+                        }
+                    }
+                } catch {
+                    print("\(error)")
+                }
+            }
+        } catch {
+            print("\(error)")
+        }
     }
-    
-    func calculateSubDirectory(_ path : String, _ key: AnalysisGroup){
-//        do{
-//            let subDirectories = try XCFileUtils.listDirectory(path, onlyDirectory: true)
-//            progress[key] = (0, subDirectories.count)
-//            calculatedTotal[key] = 0
-//            calculatedData[key] = [(String, String, UInt64)]()
-//
-//            DispatchQueue.global(qos: .userInitiated).async {
-//                do{
-//                    for var subDirectory in subDirectories{
-//                        print("calculate subD", subDirectory)
-//                        if !subDirectory.hasSuffix("/"){
-//                            subDirectory += "/"
-//                        }
-//
-//                        let totalSize = try XCFileUtils.getDirectorySize(subDirectory)
-//
-//                        var display = String(subDirectory.split(separator: "/").last!)
-//
-//                        if key == GroupKey.simulators{
-//                            if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
-//                                let name: String? = plist["name"] as! String
-//                                let uuid: String? = plist["UUID"] as? String
-//                                var version = String((plist["runtime"] as! String).split(separator: ".").last!)
-//                                //                                version = version.replacingOccurrences(of: "-", with: ".")
-//                                display = "\(name ?? uuid ?? "") (\(version))"
-//
-//                            }
-//                        }
-//
-//                        self.calculatedData[key]!.append((subDirectory, display, totalSize))
-//
-//                        self.calculatedData[key]!.sort(by: {
-//                            $0.size > $1.size
-//                        })
-//
-//                        self.progress[key]?.finished += 1
-//                        self.calculatedTotal[key] = self.calculatedTotal[key]! + totalSize
-//
-//                        self.updateProgress()
-//                    }
-//                } catch {
-//                    print("\(error)")
-//                }
-//            }
-//        } catch {
-//            print("\(error)")
-//        }
-    }
-    
- 
 }

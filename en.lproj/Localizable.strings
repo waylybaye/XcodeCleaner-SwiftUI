@@ -1,14 +1,17 @@
 /* 
-  strings.strings
+  Localizable.strings
   Cleaner4Xcode
 
-  Created by Baye Wayly on 2019/9/23.
+  Created by Baye Wayly on 2019/10/13.
   Copyright © 2019 Baye. All rights reserved.
 */
-
 "analysis.deviceSupport.summary" = "Device Support 11";
 "analysis.archives.summary" = "archives Support 11";
 "analysis.simulators.summary" = "simulators Support 11";
 "analysis.derivedData.summary" = "derived Support 11";
 "sidebar.welcome" = "Welcome";
 "test_i18n" = "test I18N";
+"welcome.need_authorize" = "We need you to authorize ~/Library/Developer permission to analyze and clean Xcode files.";
+"welcome.button_analyze" = "Analyze";
+"welcome.button_analyze_again" = "Try Again";
+"welcome.button_change_location" = "Change Developer Location";

@@ -9,8 +9,8 @@ import Cocoa
 import Foundation
 
 
-class FileDataManager {
-    public static let shared = FileDataManager()
+class FileHelper {
+    public static let standard = FileHelper()
     
     func getDefaultXcodePath() -> String{
         var homeDirectory = NSHomeDirectory();
@@ -26,7 +26,7 @@ class FileDataManager {
         return "\(homeDirectory)/Library/Developer/"
     }
     
-    func findDeveloperPath(default defualtPath: String, callback: @escaping (String) -> Void){
+    func validateDeveloperPath(default defualtPath: String, callback: @escaping (String) -> Void){
         do {
             authorize(defualtPath){
                 var authorizedPath = $0
@@ -55,7 +55,7 @@ class FileDataManager {
                 alert.addButton(withTitle: "Cancel")
                 
                 if alert.runModal() == .alertFirstButtonReturn{
-                    self.findDeveloperPath(default: defualtPath, callback: callback)
+                    self.validateDeveloperPath(default: defualtPath, callback: callback)
                 } else {
                     return
                 }
@@ -159,7 +159,7 @@ class FileDataManager {
             size += fileAttrs[FileAttributeKey.size] as! UInt64
         }
         
-        print("total size", size)
+//        print("total size", size)
         return size;
     }
 }
