@@ -47,7 +47,7 @@ struct WelcomeView: View {
                 .multilineTextAlignment(.center)
                 .font(.footnote)
                 .foregroundColor(.secondary)
-                .padding(.vertical)
+                .padding(.top, 5)
             
             Spacer()
             
@@ -78,7 +78,7 @@ struct WelcomeView: View {
                     }
                     
                     Spacer()
-                }.frame(height: 140)
+                }.frame(maxWidth: .infinity, minHeight: 140)
                 
             } else {
                 VStack{
@@ -109,7 +109,7 @@ struct WelcomeView: View {
             }
             
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 40)
         .padding(.vertical, 25)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

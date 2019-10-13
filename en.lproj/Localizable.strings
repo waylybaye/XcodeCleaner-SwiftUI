@@ -5,10 +5,12 @@
   Created by Baye Wayly on 2019/10/13.
   Copyright © 2019 Baye. All rights reserved.
 */
-"analysis.deviceSupport.summary" = "Device Support 11";
-"analysis.archives.summary" = "archives Support 11";
-"analysis.simulators.summary" = "simulators Support 11";
-"analysis.derivedData.summary" = "derived Support 11";
+"analysis.iOSDeviceSupport.summary" = "Only need to keep the latest iOS version, feel free to remove old versions.";
+"analysis.watchOSDeviceSupport.summary" = "Only need to keep the latest watchOS version, feel free to remove old versions.";
+"analysis.archives.summary" = "You can't debug deployed versions if you remove old archives.";
+"analysis.simulators.summary" = "Your apps' data are stored here. I suggest you run `xcrun simctl delete unavailable` to reduce the size safely.";
+"analysis.derivedData.summary" = "It's safe to clear the entire folder, but you'll need to rebuild your projects after removal.";
+
 "sidebar.welcome" = "Welcome";
 "test_i18n" = "test I18N";
 "welcome.need_authorize" = "Need ~/Library/Developer permission to analyze and clean Xcode files.";

@@ -66,13 +66,11 @@ enum AnalysisGroup: String{
         case .simulators:
             return ("Simulators", "analysis.simulators.summary")
         case .iosDeviceSupport:
-            return ("iOS DeviceSupport", "analysis.deviceSupport.summary")
+            return ("iOS DeviceSupport", "analysis.iOSDeviceSupport.summary")
         case .derivedData:
             return ("DerivedData", "analysis.derivedData.summary")
-            //        default:
-        //            ""
         case .watchOsDeviceSupport:
-            return ("watchOS DeviceSupport", "analysis.derivedData.summary")
+            return ("watchOS DeviceSupport", "analysis.watchOSDeviceSupport.summary")
         }
     }
 }

@@ -35,7 +35,7 @@ func ItemRow(item: AnalysisItem) -> some View {
 }
 
 
-struct MainWindow: View {
+struct MainWindowView: View {
     @ObservedObject var data = AppData()
     
     func onAppear(){
@@ -45,7 +45,7 @@ struct MainWindow: View {
         //                fm.findDeveloperPath(default: defaultPath, callback: self.analyze)
     }
     
-
+    
     
     func toggleGroup(_ group: AnalysisGroup){
         data.activeGroup = data.activeGroup == group ? nil : group;
@@ -78,64 +78,82 @@ struct MainWindow: View {
         let groups = data.groups.map {$0.0}
         
         return HStack(alignment: .top, spacing: 0){
-            ZStack(alignment: .topTrailing){
-                VStack(alignment: .leading, spacing: 0){
-                    Text("sidebar.welcome")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                        .multilineTextAlignment(.leading)
+            
+            VStack(alignment: .leading, spacing: 0){
+                Text("sidebar.welcome")
+                    .font(.body)
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
+                    .frame(minWidth: 80, maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                    .background(self.data.selectedGroup == nil ? Color("underpageBackground") : Color.clear)
+                    .cornerRadius(20)
+                    .padding(.bottom, 15)
+                    .onTapGesture {
+                        self.data.selectedGroup = nil;
+                }
+                
+                
+                ForEach(groups, id: \.group) { group in
+                    AnalysisView(analysis: group)
                         .padding()
-                        .frame(width: 250, height: nil, alignment: .leading)
-//                        .frame(width: 250, alignment)
                         .contentShape(Rectangle())
-                        .background(self.data.selectedGroup == nil ? Color("underpageBackground") : Color.clear)
+                        .background(self.data.selectedGroup === group ? Color("underpageBackground") : Color.clear)
+                        .cornerRadius(5)
                         .onTapGesture {
-                            self.data.selectedGroup = nil;
-                    }
-                    
-                    ForEach(groups, id: \.group) { group in
-                        AnalysisView(analysis: group)
-                            .padding()
-                            .contentShape(Rectangle())
-                            .background(self.data.selectedGroup === group ? Color("underpageBackground") : Color.clear)
-                            .onTapGesture {
-                                if self.data.selectedGroup !== group{
-                                    
-                                    self.data.objectWillChange.send()
+                            if self.data.selectedGroup !== group{
+                                withAnimation{
                                     self.data.selectedGroup = group
                                 }
-                        }
+                            }
                     }
                 }
-                .background(Color("windowBackground"))
-                .frame(width: 250)
-                .padding(.vertical)
             }
+            .frame(width: 220)
+            .padding()
             
             
-            if data.selectedGroup === nil {
-                WelcomeView()
-                    .background(Color("underpageBackground"))
-                    .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+            
+            ZStack{
                 
-            } else {
-                ScrollView {
-                    VStack{
-                        Text(data.selectedGroup!.group.describe().summary)
-                            .foregroundColor(.secondary)
-                            .padding(.vertical)
-                        
-                        ForEach(data.selectedGroup!.items) { item in
-                            ItemRow(item: item)
+                
+                if data.selectedGroup === nil {
+                    WelcomeView()
+                        .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+//                        .animation(.easeInOut)
+                    
+                    
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading){
+                            HStack{
+                                Spacer()
+                            }
+                            
+                            Text(LocalizedStringKey(
+                                data.selectedGroup!.group.describe().summary))
+                                .foregroundColor(.secondary)
+//                                .lineLimit(4)
+                                .padding(.top)
+                            
+                            Divider()
+                            
+                            ForEach(data.selectedGroup!.items) { item in
+                                ItemRow(item: item)
+                            }
                         }
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        //                            .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+//                                                    .transition(.opacity)
+//                                                    .animation(.easeInOut)
                     }
-                    .padding()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+                    
                     
                 }
-                .background(Color("underpageBackground"))
-                .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
-                
             }
         }
         .background(Color(NSColor.windowBackgroundColor))
@@ -146,6 +164,6 @@ struct MainWindow: View {
 
 struct MainWindow_Previews: PreviewProvider {
     static var previews: some View {
-        MainWindow()
+        MainWindowView()
     }
 }
