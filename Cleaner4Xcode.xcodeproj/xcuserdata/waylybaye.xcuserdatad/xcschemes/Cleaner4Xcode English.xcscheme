@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B4096D1F233887E1006E0959"
-               BuildableName = "Cleaner4Xcode.app"
-               BlueprintName = "Cleaner4Xcode"
+               BuildableName = "Cleaner for Xcode.app"
+               BlueprintName = "Cleaner for Xcode"
                ReferencedContainer = "container:Cleaner4Xcode.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -66,8 +66,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B4096D1F233887E1006E0959"
-            BuildableName = "Cleaner4Xcode.app"
-            BlueprintName = "Cleaner4Xcode"
+            BuildableName = "Cleaner for Xcode.app"
+            BlueprintName = "Cleaner for Xcode"
             ReferencedContainer = "container:Cleaner4Xcode.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -83,8 +83,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B4096D1F233887E1006E0959"
-            BuildableName = "Cleaner4Xcode.app"
-            BlueprintName = "Cleaner4Xcode"
+            BuildableName = "Cleaner for Xcode.app"
+            BlueprintName = "Cleaner for Xcode"
             ReferencedContainer = "container:Cleaner4Xcode.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

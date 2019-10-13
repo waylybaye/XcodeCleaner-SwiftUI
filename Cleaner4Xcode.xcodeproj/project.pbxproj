@@ -43,7 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B4096D20233887E1006E0959 /* Cleaner4Xcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cleaner4Xcode.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B4096D20233887E1006E0959 /* Cleaner for Xcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cleaner for Xcode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4096D23233887E1006E0959 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4096D25233887E1006E0959 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B4096D27233887E2006E0959 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 		B4096D21233887E1006E0959 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B4096D20233887E1006E0959 /* Cleaner4Xcode.app */,
+				B4096D20233887E1006E0959 /* Cleaner for Xcode.app */,
 				B4096D35233887E2006E0959 /* Cleaner4XcodeTests.xctest */,
 				B4096D40233887E2006E0959 /* Cleaner4XcodeUITests.xctest */,
 			);
@@ -175,9 +175,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B4096D1F233887E1006E0959 /* Cleaner4Xcode */ = {
+		B4096D1F233887E1006E0959 /* Cleaner for Xcode */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B4096D49233887E2006E0959 /* Build configuration list for PBXNativeTarget "Cleaner4Xcode" */;
+			buildConfigurationList = B4096D49233887E2006E0959 /* Build configuration list for PBXNativeTarget "Cleaner for Xcode" */;
 			buildPhases = (
 				B4096D1C233887E1006E0959 /* Sources */,
 				B4096D1D233887E1006E0959 /* Frameworks */,
@@ -187,9 +187,9 @@
 			);
 			dependencies = (
 			);
-			name = Cleaner4Xcode;
+			name = "Cleaner for Xcode";
 			productName = Cleaner4Xcode;
-			productReference = B4096D20233887E1006E0959 /* Cleaner4Xcode.app */;
+			productReference = B4096D20233887E1006E0959 /* Cleaner for Xcode.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B4096D34233887E2006E0959 /* Cleaner4XcodeTests */ = {
@@ -264,7 +264,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B4096D1F233887E1006E0959 /* Cleaner4Xcode */,
+				B4096D1F233887E1006E0959 /* Cleaner for Xcode */,
 				B4096D34233887E2006E0959 /* Cleaner4XcodeTests */,
 				B4096D3F233887E2006E0959 /* Cleaner4XcodeUITests */,
 			);
@@ -338,12 +338,12 @@
 /* Begin PBXTargetDependency section */
 		B4096D37233887E2006E0959 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B4096D1F233887E1006E0959 /* Cleaner4Xcode */;
+			target = B4096D1F233887E1006E0959 /* Cleaner for Xcode */;
 			targetProxy = B4096D36233887E2006E0959 /* PBXContainerItemProxy */;
 		};
 		B4096D42233887E2006E0959 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B4096D1F233887E1006E0959 /* Cleaner4Xcode */;
+			target = B4096D1F233887E1006E0959 /* Cleaner for Xcode */;
 			targetProxy = B4096D41233887E2006E0959 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -492,6 +492,7 @@
 				CODE_SIGN_ENTITLEMENTS = Cleaner4Xcode/Cleaner4Xcode.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"Cleaner4Xcode/Preview Content\"";
 				DEVELOPMENT_TEAM = 67Q6744L7B;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -502,7 +503,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = tech.baye.Cleaner4Xcode;
+				MARKETING_VERSION = 3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.hyperapp.XcodeCleaner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -515,6 +517,7 @@
 				CODE_SIGN_ENTITLEMENTS = Cleaner4Xcode/Cleaner4Xcode.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"Cleaner4Xcode/Preview Content\"";
 				DEVELOPMENT_TEAM = 67Q6744L7B;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -525,7 +528,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = tech.baye.Cleaner4Xcode;
+				MARKETING_VERSION = 3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = io.hyperapp.XcodeCleaner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -627,7 +631,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B4096D49233887E2006E0959 /* Build configuration list for PBXNativeTarget "Cleaner4Xcode" */ = {
+		B4096D49233887E2006E0959 /* Build configuration list for PBXNativeTarget "Cleaner for Xcode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B4096D4A233887E2006E0959 /* Debug */,
