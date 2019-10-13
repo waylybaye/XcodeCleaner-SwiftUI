@@ -9,9 +9,13 @@
 import SwiftUI
 
 
-func ItemRow(item: AnalysisItem) -> some View {
+func ItemRow(
+    item: AnalysisItem,
+    onReveal: @escaping () -> Void,
+    onTrash: @escaping () -> Void
+) -> some View {
+    
     return HStack{
-        
         Text(item.displayName)
             .lineLimit(1)
         
@@ -20,15 +24,11 @@ func ItemRow(item: AnalysisItem) -> some View {
         Text(humanize(item.totalSize))
             .padding(.horizontal)
         
-        Button(action: {
-            //            self.revealPath(path: item.path)
-        }) {
+        Button(action: onReveal) {
             Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
         }
         
-        Button(action: {
-            //            self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
-        }) {
+        Button(action: onTrash) {
             Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
         }
     }
@@ -108,16 +108,10 @@ struct MainWindowView: View {
             .frame(width: 220)
             .padding()
             
-            
-            
             ZStack{
-                
-                
                 if data.selectedGroup === nil {
                     WelcomeView()
                         .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
-//                        .animation(.easeInOut)
-                    
                     
                 } else {
                     ScrollView {
@@ -129,22 +123,26 @@ struct MainWindowView: View {
                             Text(LocalizedStringKey(
                                 data.selectedGroup!.group.describe().summary))
                                 .foregroundColor(.secondary)
-//                                .lineLimit(4)
                                 .padding(.top)
                             
                             Divider()
                             
                             ForEach(data.selectedGroup!.items) { item in
-                                ItemRow(item: item)
+                                ItemRow(
+                                    item: item,
+                                    onReveal: {
+                                        self.revealPath(path: item.path)
+                                },
+                                    onTrash: {
+                                        self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
+                                }
+                                )
                             }
                         }
                         .padding()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        //                            .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
-//                                                    .transition(.opacity)
-//                                                    .animation(.easeInOut)
                     }
-                        .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
                     
                     
                 }
