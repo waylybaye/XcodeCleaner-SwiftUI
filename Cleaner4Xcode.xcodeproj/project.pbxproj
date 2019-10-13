@@ -98,11 +98,9 @@
 		B4096D17233887E1006E0959 = {
 			isa = PBXGroup;
 			children = (
-				B4A540D6235244530014B2C8 /* Localizable.strings */,
 				B44C6E682338DD120087CE17 /* FileHelper.swift */,
 				B4096D5C2338983F006E0959 /* DataStore.swift */,
 				B4096D5523389757006E0959 /* Components */,
-				B4096D5223388807006E0959 /* Screens */,
 				B4096D22233887E1006E0959 /* Cleaner4Xcode */,
 				B4096D38233887E2006E0959 /* Cleaner4XcodeTests */,
 				B4096D43233887E2006E0959 /* Cleaner4XcodeUITests */,
@@ -123,8 +121,10 @@
 		B4096D22233887E1006E0959 /* Cleaner4Xcode */ = {
 			isa = PBXGroup;
 			children = (
+				B4A540D6235244530014B2C8 /* Localizable.strings */,
 				B4096D23233887E1006E0959 /* AppDelegate.swift */,
 				B4096D25233887E1006E0959 /* ContentView.swift */,
+				B4096D5323388820006E0959 /* MainWindowView.swift */,
 				B4096D27233887E2006E0959 /* Assets.xcassets */,
 				B4096D2C233887E2006E0959 /* Main.storyboard */,
 				B4096D2F233887E2006E0959 /* Info.plist */,
@@ -158,14 +158,6 @@
 				B4096D46233887E2006E0959 /* Info.plist */,
 			);
 			path = Cleaner4XcodeUITests;
-			sourceTree = "<group>";
-		};
-		B4096D5223388807006E0959 /* Screens */ = {
-			isa = PBXGroup;
-			children = (
-				B4096D5323388820006E0959 /* MainWindowView.swift */,
-			);
-			path = Screens;
 			sourceTree = "<group>";
 		};
 		B4096D5523389757006E0959 /* Components */ = {
