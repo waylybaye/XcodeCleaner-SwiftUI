@@ -11,7 +11,7 @@
 "analysis.derivedData.summary" = "derived Support 11";
 "sidebar.welcome" = "Welcome";
 "test_i18n" = "test I18N";
-"welcome.need_authorize" = "We need you to authorize ~/Library/Developer permission to analyze and clean Xcode files.";
+"welcome.need_authorize" = "Need ~/Library/Developer permission to analyze and clean Xcode files.";
 "welcome.button_analyze" = "Analyze";
 "welcome.button_analyze_again" = "Try Again";
 "welcome.button_change_location" = "Change Developer Location";

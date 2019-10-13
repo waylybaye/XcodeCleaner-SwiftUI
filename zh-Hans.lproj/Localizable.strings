@@ -7,7 +7,8 @@
 */
 "sidebar.welcome" = "欢迎";
 "test_i18n" = "测试 I18N";
-"welcome.need_authorize" = "我们需要您对 ~/Library/Developer 进行授权才可以分析该文件夹";
+"welcome.need_authorize" = "需要您对 ~/Library/Developer 进行授权才可以分析该文件夹";
 "welcome.button_analyze" = "开始分析";
 "welcome.button_analyze_again" = "再来一遍";
 "welcome.button_change_location" = "选择 Developer 目录";
+"analysis.deviceSupport.summary" = "Device Support 11";
