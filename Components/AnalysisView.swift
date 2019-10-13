@@ -13,7 +13,7 @@ struct AnalysisView: View {
     @ObservedObject var analysis: Analysis
     
     var body: some View {
-        let (title, summary) = analysis.group.describe()
+        let (title, _) = analysis.group.describe()
         
         return
             HStack{
@@ -42,7 +42,11 @@ struct AnalysisView: View {
 
 struct AnalysisView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyView()
-        //        AnalysisView()
+        let data = AppData()
+        return VStack{
+            AnalysisView(analysis: data.iosDeviceSupport)
+            AnalysisView(analysis: data.archives)
+        }
+        .environmentObject(data)
     }
 }

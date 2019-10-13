@@ -4,10 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Cleaner4Xcode English.xcscheme</key>
+		<key>Cleaner for Xcode (english) .xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>Cleaner for Xcode.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 		<key>Cleaner4Xcode.xcscheme_^#shared#^_</key>
 		<dict>
