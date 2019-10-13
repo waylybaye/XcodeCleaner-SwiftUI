@@ -13,8 +13,6 @@ struct WelcomeView: View {
     
     func onAnalyze() {
         withAnimation{
-            
-            
             if appData.selectedDeveloperPath == nil {
                 let fh = FileHelper.standard
                 let defaultPath = fh.getDefaultXcodePath()

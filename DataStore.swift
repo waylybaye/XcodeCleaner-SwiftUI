@@ -138,6 +138,16 @@ class AppData: ObservableObject {
         }
     }
     
+    func recalculateTotal(){
+        var totalSize: UInt64 = 0
+        
+        for (analysis, _) in groups {
+            totalSize += analysis.totalSize
+        }
+        
+        self.totalSize = totalSize
+    }
+    
     func analyze() {
         isAnalyzing = true
         totalSize = 0
@@ -146,6 +156,7 @@ class AppData: ObservableObject {
         
         if let path = self.selectedDeveloperPath {
             for (analysis, subPath) in groups {
+                analysis.items = []
                 analyzeGroup(analysis: analysis, developerPath: path + subPath)
             }
         }
