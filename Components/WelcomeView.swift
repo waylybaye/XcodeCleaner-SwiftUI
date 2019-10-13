@@ -12,17 +12,21 @@ struct WelcomeView: View {
     @EnvironmentObject var appData: AppData
     
     func onAnalyze() {
-        if appData.selectedDeveloperPath == nil {
-            let fh = FileHelper.standard
-            let defaultPath = fh.getDefaultXcodePath()
+        withAnimation{
             
-            fh.validateDeveloperPath(default: defaultPath) {path in
-                self.appData.selectedDeveloperPath = path
+            
+            if appData.selectedDeveloperPath == nil {
+                let fh = FileHelper.standard
+                let defaultPath = fh.getDefaultXcodePath()
+                
+                fh.validateDeveloperPath(default: defaultPath) {path in
+                    self.appData.selectedDeveloperPath = path
+                    self.appData.analyze()
+                }
+                
+            } else {
                 self.appData.analyze()
             }
-            
-        } else {
-            self.appData.analyze()
         }
     }
     
@@ -58,12 +62,12 @@ struct WelcomeView: View {
                         .font(.largeTitle)
                         .bold()
                         .foregroundColor(.pink)
-                    Spacer()
+                        .padding(.bottom)
                     
                     if appData.isAnalyzing {
                         ProgressBar(progress: CGFloat(appData.progress), height: 6)
-                            .frame(height: 40)
-                            .animation(.easeIn)
+                            .frame(height: 6, alignment: .top)
+                        
                         
                     } else {
                         Text("welcome.button_analyze_again")
@@ -73,7 +77,6 @@ struct WelcomeView: View {
                             .background(Color.pink)
                             .cornerRadius(25)
                             .contentShape(Rectangle())
-                            //                            .animation(.easeIn)
                             .onTapGesture(perform: onAnalyze)
                     }
                     
@@ -82,6 +85,8 @@ struct WelcomeView: View {
                 
             } else {
                 VStack{
+                    Spacer()
+                    
                     Text("welcome.button_analyze")
                         .foregroundColor(.white)
                         .padding(.horizontal, 25)
@@ -104,6 +109,8 @@ struct WelcomeView: View {
                                 .onTapGesture(perform: choseDeveloperPath)
                         }
                     }
+                    
+                    Spacer()
                 }
                 .frame(height: 140)
             }

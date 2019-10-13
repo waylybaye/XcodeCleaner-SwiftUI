@@ -51,8 +51,8 @@ class FileHelper {
                 alert.messageText = XCODE_NOT_FOUND
                 alert.informativeText = XCODE_NOT_FOUND_MSG
                 alert.alertStyle = .warning
-                alert.addButton(withTitle: "Choose Directory")
-                alert.addButton(withTitle: "Cancel")
+                alert.addButton(withTitle: XCODE_CHOOSE_LOCATION)
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel"))
                 
                 if alert.runModal() == .alertFirstButtonReturn{
                     self.validateDeveloperPath(default: defualtPath, callback: callback)

@@ -39,13 +39,7 @@ struct MainWindowView: View {
     @ObservedObject var data = AppData()
     
     func onAppear(){
-        //                let fm = FileDataManager.shared
-        //        let defaultPath = fm.getDefaultXcodePath()
-        //
-        //                fm.findDeveloperPath(default: defaultPath, callback: self.analyze)
     }
-    
-    
     
     func toggleGroup(_ group: AnalysisGroup){
         data.activeGroup = data.activeGroup == group ? nil : group;

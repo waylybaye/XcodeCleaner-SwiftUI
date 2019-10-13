@@ -17,3 +17,9 @@
 "analysis.archives.summary" = "应用每个版本的归档文件，收集到崩溃日志后需要其中的 dSYM 文件来定位源代码，dSYM 也可以通过开发者后台来下载，所以根据个人需要决定是否保留。";
 "analysis.simulators.summary" = "模拟器中安装应用的数据保存在这里，建议使用 `xcrun simctl delete unavailable` 自动清理。";
 "analysis.derivedData.summary" = "项目的一些索引及缓存文件，可以安全删除，删除后再次打开项目时会自动重新生成。";
+
+"xcode_not_found_title" = "未能在指定目录中找到 Xcode";
+"xcode_not_found_body" = "未能在指定目录中找到 Xcode，Developer 目录一般在 ~/Library/Developer 目录下";
+"developer_auth_title" = "选择 Developer 目录";
+"developer_auth_tip" = "请选择 Developer 目录，您可以使用快捷键 ⌘ ⇧ G 调出“前往”输入框并且输入 ~/Library/Developer ";
+"Cancel" =  "取消";

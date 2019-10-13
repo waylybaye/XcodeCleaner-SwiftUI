@@ -13,6 +13,7 @@ let XCODE_NOT_FOUND = NSLocalizedString("xcode_not_found_title", comment: "Shows
 let XCODE_NOT_FOUND_MSG = NSLocalizedString("xcode_not_found_body", comment:"No Xcode installation found in selected directory, it's usually at HOME/Library/Developer.")
 let CHOOSE_DEVELOPER_DIR = NSLocalizedString("developer_auth_title", comment: "")
 let CHOOSE_DEVELOPER_DIR_TIP = NSLocalizedString("developer_auth_tip", comment: "")
+let XCODE_CHOOSE_LOCATION = NSLocalizedString("welcome.button_change_location", comment: "")
 
 
 func alert(_ text: String, title: String = "Alert") -> Void {
@@ -25,7 +26,7 @@ func alert(_ text: String, title: String = "Alert") -> Void {
 }
 
 func bookmarkKey(_ path: String) -> String{
-    return "bookmark:\(path.hasSuffix("/") ? path : path + "/")"
+    return "bm:\(path.hasSuffix("/") ? path : path + "/")"
 }
 
 func bookmarkKey(url: URL) -> String{
