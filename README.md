@@ -1,7 +1,7 @@
 # Cleaner for Xcode
 
 
-![Screen Shot](./screenshot.png "Screenshot")
+This is the new `SwiftUI` version of my original `react-native-macos` powered [XcodeCleaner](https://github.com/waylybaye/XcodeCleaner)
 
 
 This app helps you to make your Xcode faster by removing unwanted and deprecated files.
@@ -27,10 +27,7 @@ Cleaner for Xcode is available on Mac App Store now, you can get it using the li
 open `Cleaner4Xcode.xcodeproj` and hit `⌘ R` !
 
 
-----
-
 ## LICENSE
-
 
 You are permitted to use this
 source code, with or without modification, in source or binary form, on
