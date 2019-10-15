@@ -1,12 +1,10 @@
 # Cleaner for Xcode
 
-
 This is the new `SwiftUI` version of my original `react-native-macos` powered [XcodeCleaner](https://github.com/waylybaye/XcodeCleaner)
 
+----
 
-This app helps you to make your Xcode faster by removing unwanted and deprecated files.
-
-You can run cleaner weekly or monthly to keep your developer folder health and to save more disk space.
+This app helps you to make your Xcode faster by removing unwanted and deprecated files. You can run cleaner weekly or monthly to keep your developer folder health and to save more disk space.
 
 
 这个应用可以帮助你清除遗留以及废弃文件，从而极大的节省硬盘空间. 你可以每月或者每周运行一次进行清理。
@@ -38,4 +36,4 @@ it, on the Apple App Store, Cydia, or any other binary-only distribution
 channel.
 
 
-你可以任意修改、使用该源代码，包括商业项目。但不能将此应用或者修改的应用的二进制文件上传到 App Store 或者其它软件分发渠道。
+你可以任意修改、使用该源代码，也可以用于商业目的。但不能将此应用或者修改的应用的二进制文件上传到 App Store 或者通过其它分发渠道（包括但不限于网站、网盘、聊天软件）分享二进制文件。

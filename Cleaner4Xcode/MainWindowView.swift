@@ -41,10 +41,6 @@ struct MainWindowView: View {
     func onAppear(){
     }
     
-    func toggleGroup(_ group: AnalysisGroup){
-        data.activeGroup = data.activeGroup == group ? nil : group;
-    }
-    
     func revealPath(path: String){
         let url = URL.init(fileURLWithPath: path, isDirectory: true)
         NSWorkspace.shared.activateFileViewerSelecting([url])

@@ -108,9 +108,7 @@ class AppData: ObservableObject {
     @Published var simulators = Analysis(group: .simulators)
     @Published var derivedData = Analysis(group: .derivedData)
     
-    @Published var activeGroup: AnalysisGroup?
     @Published var selectedGroup: Analysis?
-    
     @Published var selectedDeveloperPath: String?
     
     @Published var isAnalyzing: Bool = false
