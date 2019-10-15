@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B40296B923558580005B74C7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B40296B823558580005B74C7 /* README.md */; };
+		B40296BB2355A52A005B74C7 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = B40296BA2355A52A005B74C7 /* screenshot.png */; };
 		B4096D24233887E1006E0959 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4096D23233887E1006E0959 /* AppDelegate.swift */; };
 		B4096D26233887E1006E0959 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4096D25233887E1006E0959 /* ContentView.swift */; };
 		B4096D28233887E2006E0959 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4096D27233887E2006E0959 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		B40296B823558580005B74C7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B40296BA2355A52A005B74C7 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		B4096D20233887E1006E0959 /* Cleaner for Xcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cleaner for Xcode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4096D23233887E1006E0959 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4096D25233887E1006E0959 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 		B4096D17233887E1006E0959 = {
 			isa = PBXGroup;
 			children = (
+				B40296BA2355A52A005B74C7 /* screenshot.png */,
 				B40296B823558580005B74C7 /* README.md */,
 				B44C6E682338DD120087CE17 /* FileHelper.swift */,
 				B4096D5C2338983F006E0959 /* DataStore.swift */,
@@ -170,6 +173,7 @@
 				B4096D2E233887E2006E0959 /* Main.storyboard in Resources */,
 				B40296B923558580005B74C7 /* README.md in Resources */,
 				B4096D2B233887E2006E0959 /* Preview Assets.xcassets in Resources */,
+				B40296BB2355A52A005B74C7 /* screenshot.png in Resources */,
 				B4096D28233887E2006E0959 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

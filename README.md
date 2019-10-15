@@ -4,6 +4,8 @@ This is the new `SwiftUI` version of my original `react-native-macos` powered [X
 
 ----
 
+![screenshot](./screenshot.png)
+
 This app helps you to make your Xcode faster by removing unwanted and deprecated files. You can run cleaner weekly or monthly to keep your developer folder health and to save more disk space.
 
 
