@@ -27,42 +27,37 @@ class FileHelper {
     }
     
     func validateDeveloperPath(default defualtPath: String, callback: @escaping (String) -> Void){
-        do {
-            authorize(defualtPath){
-                var authorizedPath = $0
-                
-                if !authorizedPath.hasSuffix("/"){
-                    authorizedPath += "/"
-                }
-                
-                print("authorizedPath", authorizedPath);
-                
-                let xcodePath = authorizedPath + "Xcode/";
-                let exists = FileManager.default.fileExists(atPath: xcodePath, isDirectory: nil)
-                
-                if exists {
-                    callback(authorizedPath)
-                    return
-                }
-                
+        authorize(defualtPath){
+            var authorizedPath = $0
             
-                let alert = NSAlert()
-                
-                alert.messageText = XCODE_NOT_FOUND
-                alert.informativeText = XCODE_NOT_FOUND_MSG
-                alert.alertStyle = .warning
-                alert.addButton(withTitle: XCODE_CHOOSE_LOCATION)
-                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel"))
-                
-                if alert.runModal() == .alertFirstButtonReturn{
-                    self.validateDeveloperPath(default: defualtPath, callback: callback)
-                } else {
-                    return
-                }
-                
-            };
-        } catch {
-            print("Error: \(error)")
+            if !authorizedPath.hasSuffix("/"){
+                authorizedPath += "/"
+            }
+            
+            print("authorizedPath", authorizedPath);
+            
+            let xcodePath = authorizedPath + "Xcode/";
+            let exists = FileManager.default.fileExists(atPath: xcodePath, isDirectory: nil)
+            
+            if exists {
+                callback(authorizedPath)
+                return
+            }
+            
+        
+            let alert = NSAlert()
+            
+            alert.messageText = XCODE_NOT_FOUND
+            alert.informativeText = XCODE_NOT_FOUND_MSG
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: XCODE_CHOOSE_LOCATION)
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel"))
+            
+            if alert.runModal() == .alertFirstButtonReturn{
+                self.validateDeveloperPath(default: defualtPath, callback: callback)
+            } else {
+                return
+            }
         }
     }
     
@@ -82,12 +77,12 @@ class FileHelper {
          //        openPanel.title = CHOOSE_DEVELOPER_DIR
          openPanel.message = "\(CHOOSE_DEVELOPER_DIR)\n\(CHOOSE_DEVELOPER_DIR_TIP)"
          openPanel.begin { (result) -> Void in
-             if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
                  let url = openPanel.urls.first!
                  do{
                      let bookmarkData = try url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
                      UserDefaults.standard.setValue(bookmarkData, forKey: bookmarkKey(url: url))
-                     self.resolveBookmark(data: bookmarkData)
+                     _ = self.resolveBookmark(data: bookmarkData)
                      callback(url.path)
                  } catch {
                      alert(error.localizedDescription)
@@ -99,7 +94,7 @@ class FileHelper {
      func resolveBookmark(data: Data) -> Bool{
          do{
              var isStale = ObjCBool(false)
-             var url = try NSURL(resolvingBookmarkData: data, options: URL.BookmarkResolutionOptions.withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
+             let url = try NSURL(resolvingBookmarkData: data, options: URL.BookmarkResolutionOptions.withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
              
              print("resolved url \(url)")
              

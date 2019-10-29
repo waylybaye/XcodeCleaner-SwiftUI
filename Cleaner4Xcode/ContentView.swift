@@ -11,8 +11,6 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         MainWindowView()
-//        Text("Hello World")
-//            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

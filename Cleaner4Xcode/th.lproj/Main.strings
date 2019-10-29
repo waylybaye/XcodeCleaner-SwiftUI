@@ -1,0 +1,33 @@
+
+/* Class = "NSMenuItem"; title = "Cleaner4Xcode"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "Cleaner4Xcode";
+
+/* Class = "NSMenuItem"; title = "Quit Cleaner4Xcode"; ObjectID = "4sb-4s-VLi"; */
+"4sb-4s-VLi.title" = "ปิด Cleaner4Xcode";
+
+/* Class = "NSMenuItem"; title = "About Cleaner4Xcode"; ObjectID = "5kV-Vb-QxS"; */
+"5kV-Vb-QxS.title" = "ข้อมูลแอพ Cleaner4Xcode";
+
+/* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
+"AYu-sK-qS6.title" = "เมนูหลัก";
+
+/* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
+"BOF-NM-1cW.title" = "ตั้งค่า…";
+
+/* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
+"Kd2-mp-pUS.title" = "แสดงหมด";
+
+/* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
+"NMo-om-nkz.title" = "เซอร์วิส";
+
+/* Class = "NSMenuItem"; title = "Hide Cleaner4Xcode"; ObjectID = "Olw-nP-bQN"; */
+"Olw-nP-bQN.title" = "ซ่อน Cleaner4Xcode";
+
+/* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
+"Vdr-fp-XzO.title" = "ซ่อน ชิ้นอื่น";
+
+/* Class = "NSMenu"; title = "Services"; ObjectID = "hz9-B4-Xy5"; */
+"hz9-B4-Xy5.title" = "เซอร์วิส";
+
+/* Class = "NSMenu"; title = "Cleaner4Xcode"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "Cleaner4Xcode";
