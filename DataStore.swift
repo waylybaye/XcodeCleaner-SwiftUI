@@ -185,9 +185,9 @@ class AppData: ObservableObject {
                         if analysis.group == .simulators {
                             if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
                                 let name: String = plist["name"] as! String
-                                let uuid: String? = plist["UUID"] as? String
+                                //let uuid: String? = plist["UUID"] as? String
                                 let version = String((plist["runtime"] as! String).split(separator: ".").last!)
-                                //                                version = version.replacingOccurrences(of: "-", with: ".")
+                                //version = version.replacingOccurrences(of: "-", with: ".")
                                 display = "\(name) (\(version))"
                             }
                         }

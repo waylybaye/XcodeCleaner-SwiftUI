@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  Cleaner4Xcode
+
+  Created by Baye Wayly on 2019/10/13.
+  Copyright © 2019 Baye. All rights reserved.
+*/
+"analysis.iOSDeviceSupport.summary" = "iOS เวอร์ชั่นล่าสุดเท่านั้นที่จะถูกใช้ คุณสามารถลบเวอร์ชั่นเก่าได้";
+"analysis.watchOSDeviceSupport.summary" = "watchOS เวอร์ชั่นล่าสุดเท่านั้นที่จะถูกใช้ คุณสามารถลบเวอร์ชั่นเก่าได้";
+"analysis.archives.summary" = "ถ้าคุณลบ archives เก่า คุณอาจไม่สามารถกลับมา Debug เวอร์ชั่นที่ถูกปล่อยไปแล้วได้";
+"analysis.simulators.summary" = "apps' data ของคุณเก็บไว้ที่นี่ ฉันแนะนำว่าคุณควรรันคำสั่ง `xcrun simctl delete unavailable` แทน เพื่อลบไฟล์อย่างปลอดภัย";
+"analysis.derivedData.summary" = "โฟลเดอร์นี้สามารถลบทิ้ง ทั้งโฟลเดอร์ได้อย่างปลอดภัย คุณเพียงสั่ง rebuild โปรเจคของคุณอีกครั้ง ทุกอย่างก็จะกลับมาปรกติ";
+
+"sidebar.welcome" = "หน้าแรก";
+"test_i18n" = "test I18N";
+"welcome.need_authorize" = "ต้องการสิทธิ์ในการเข้าถึง ~/Library/Developer เพื่อวิเคราะห์และทำล้างข้อมูลของ Xcode ที่ไม่จำเป็น";
+"welcome.button_analyze" = "วิเคราะห์";
+"welcome.button_analyze_again" = "ลองอีกครั้ง";
+"welcome.button_change_location" = "เลือกโฟลเดอร์ Developer ใหม่";
+
+"xcode_not_found_title" = "ไม่พบ Xcode";
+"xcode_not_found_body" = "ไม่พบการติดตั้ง Xcode ในโฟลเดอร์ Developer ที่เลือก ตามปรกติแล้ว ควรอยู่ที่ ~/Library/Developer";
+"developer_auth_title" = "เลือกโฟลเดอร์ Developer";
+"developer_auth_tip" = "โปรดเลือกโฟลเดอร์ Developer คุณสามารถกด ⌘ ⇧ G และระบุโฟลเดอร์ลงไปว่า ~/Library/Developer";
