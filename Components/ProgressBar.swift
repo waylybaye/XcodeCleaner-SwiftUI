@@ -23,7 +23,7 @@ struct ProgressBar: View {
                         style: .circular)
                 }
                 .fill(
-                    Color.gray
+                  Color(NSColor.controlBackgroundColor)
                 )
                 
                 Path{ path in
