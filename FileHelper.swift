@@ -76,6 +76,7 @@ class FileHelper {
          openPanel.canChooseFiles = false
          //        openPanel.title = CHOOSE_DEVELOPER_DIR
          openPanel.message = "\(CHOOSE_DEVELOPER_DIR)\n\(CHOOSE_DEVELOPER_DIR_TIP)"
+         openPanel.showsHiddenFiles = true
          openPanel.begin { (result) -> Void in
             if result == NSApplication.ModalResponse.OK {
                  let url = openPanel.urls.first!
