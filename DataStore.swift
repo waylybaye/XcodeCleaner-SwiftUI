@@ -94,9 +94,11 @@ class Analysis: ObservableObject {
 }
 
 struct AnalysisItem: Identifiable {
-  var id: String {
-    path
-  }
+//  var id: String {
+//    path
+//  }
+  
+  var id = UUID()
   
   let path: String
   let displayName: String
@@ -127,10 +129,10 @@ class AppData: ObservableObject {
     [
       (iosDeviceSupport, "Xcode/iOS DeviceSupport/"),
       (watchOsDeviceSupport, "Xcode/watchOS DeviceSupport/"),
-      (derivedData, "Xcode/DerivedData/"),
-      (archives, "Xcode/Archives/"),
       (simulators, "CoreSimulator/Devices/"),
       (previews, "Xcode/UserData/Previews/Simulator Devices/"),
+      (derivedData, "Xcode/DerivedData/"),
+      (archives, "Xcode/Archives/"),
     ]
   }
   
@@ -189,16 +191,16 @@ class AppData: ObservableObject {
             if analysis.group == .simulators {
               if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
                 let name: String = plist["name"] as! String
-                //let uuid: String? = plist["UUID"] as? String
-                let version = String((plist["runtime"] as! String).split(separator: ".").last!)
-                //version = version.replacingOccurrences(of: "-", with: ".")
+                var version = String((plist["runtime"] as! String).split(separator: ".").last!)
+                version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
                 display = "\(name) (\(version))"
               }
               
             } else if analysis.group == .previews {
               if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
                 let name: String = plist["name"] as! String
-                let version = String((plist["runtime"] as! String).split(separator: ".").last!)
+                var version = String((plist["runtime"] as! String).split(separator: ".").last!)
+                version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
                 display = "\(name) (\(version))"
               }
             }

@@ -91,7 +91,7 @@ struct MainWindowView: View {
         ForEach(groups, id: \.group) { group in
           AnalysisView(analysis: group)
             .padding(.horizontal)
-            .padding(.vertical, 5)
+            .padding(.vertical, 10)
             .contentShape(Rectangle())
             .background(self.data.selectedGroup === group ? Color("underpageBackground") : Color.clear)
             .cornerRadius(5)
@@ -113,12 +113,8 @@ struct MainWindowView: View {
             .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
           
         } else {
-          ScrollView {
+          List {
             VStack(alignment: .leading){
-              HStack{
-                Spacer()
-              }
-              
               Text(LocalizedStringKey(
                 data.selectedGroup!.group.describe().summary))
                 .foregroundColor(.secondary)
@@ -138,12 +134,8 @@ struct MainWindowView: View {
                 )
               }
             }
-            .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
-          .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
-          
-          
+          .frame(minWidth: 400, maxWidth: .infinity)
         }
       }
     }
