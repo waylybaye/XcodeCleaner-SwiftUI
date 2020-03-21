@@ -90,7 +90,8 @@ struct MainWindowView: View {
         
         ForEach(groups, id: \.group) { group in
           AnalysisView(analysis: group)
-            .padding()
+            .padding(.horizontal)
+            .padding(.vertical, 5)
             .contentShape(Rectangle())
             .background(self.data.selectedGroup === group ? Color("underpageBackground") : Color.clear)
             .cornerRadius(5)

@@ -196,7 +196,11 @@ class AppData: ObservableObject {
               }
               
             } else if analysis.group == .previews {
-              
+              if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
+                let name: String = plist["name"] as! String
+                let version = String((plist["runtime"] as! String).split(separator: ".").last!)
+                display = "\(name) (\(version))"
+              }
             }
             
             DispatchQueue.main.async {

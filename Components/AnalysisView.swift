@@ -45,8 +45,12 @@ struct AnalysisView_Previews: PreviewProvider {
     let data = AppData()
     return VStack{
       AnalysisView(analysis: data.iosDeviceSupport)
+      AnalysisView(analysis: data.watchOsDeviceSupport)
       AnalysisView(analysis: data.archives)
+      AnalysisView(analysis: data.archives)
+      AnalysisView(analysis: data.previews)
     }
+    .padding()
     .environmentObject(data)
   }
 }

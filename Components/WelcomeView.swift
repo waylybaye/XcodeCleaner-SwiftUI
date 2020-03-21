@@ -42,7 +42,8 @@ struct WelcomeView: View {
         .frame(width: 128, height: 128, alignment: .center)
       
       Text("Cleaner for Xcode")
-        .font(.largeTitle)
+//        .font(.largeTitle)
+        .font(Font.system(.largeTitle, design: .rounded))
         .padding(.top)
       
       Text("welcome.need_authorize")
@@ -57,7 +58,7 @@ struct WelcomeView: View {
         VStack{
           Spacer()
           Text(humanize(appData.totalSize))
-            .font(.largeTitle)
+            .font(Font.largeTitle.monospacedDigit())
             .bold()
             .foregroundColor(.pink)
             .padding(.bottom)
