@@ -8,6 +8,18 @@
 
 import SwiftUI
 
+struct ButtonModifier: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .foregroundColor(.white)
+      .padding(.horizontal, 25)
+      .padding(.vertical, 10)
+      .background(Color.pink)
+      .cornerRadius(25)
+      .contentShape(Rectangle())
+  }
+}
+
 struct WelcomeView: View {
   @EnvironmentObject var appData: AppData
   
@@ -33,6 +45,50 @@ struct WelcomeView: View {
     onAnalyze()
   }
   
+  var analyzingView: some View {
+    VStack (alignment: .center, spacing: 10) {
+      Text(humanize(appData.totalSize))
+        .font(Font.largeTitle.monospacedDigit())
+        .bold()
+        .foregroundColor(.pink)
+
+      if appData.isAnalyzing {
+        ProgressBar(progress: CGFloat(appData.progress), height: 6)
+          .frame(minHeight: 40, alignment: .center)
+
+      } else {
+        Text("welcome.button_analyze_again")
+          .modifier(ButtonModifier())
+          .frame(minHeight: 40, alignment: .center)
+          .onTapGesture(perform: onAnalyze)
+      }
+    }.frame(maxWidth: .infinity, minHeight: 140)
+  }
+  
+  var startView: some View {
+    VStack{
+      Text("welcome.button_analyze")
+        .modifier(ButtonModifier())
+        .onTapGesture(perform: onAnalyze)
+      
+      if appData.selectedDeveloperPath != nil {
+        VStack{
+          Text("Selected \(appData.selectedDeveloperPath!)")
+            .foregroundColor(.secondary)
+            .padding()
+          
+          Text("welcome.button_change_location")
+            .foregroundColor(.pink)
+            .padding()
+            .contentShape(Rectangle())
+            .onTapGesture(perform: choseDeveloperPath)
+        }
+      }
+    }
+    .frame(height: 140)
+  }
+  
+  
   var body: some View {
     VStack{
       Spacer()
@@ -41,11 +97,11 @@ struct WelcomeView: View {
         .resizable()
         .frame(width: 128, height: 128, alignment: .center)
       
-      Text("Cleaner for Xcode")
-//        .font(.largeTitle)
-        .font(Font.system(.largeTitle, design: .rounded))
-        .padding(.top)
+      Spacer()
       
+      Text("Cleaner for Xcode")
+        .font(Font.system(.largeTitle, design: .rounded))
+
       Text("welcome.need_authorize")
         .multilineTextAlignment(.center)
         .font(.footnote)
@@ -55,63 +111,10 @@ struct WelcomeView: View {
       Spacer()
       
       if appData.totalSize > 0 {
-        VStack{
-          Spacer()
-          Text(humanize(appData.totalSize))
-            .font(Font.largeTitle.monospacedDigit())
-            .bold()
-            .foregroundColor(.pink)
-            .padding(.bottom)
-          
-          if appData.isAnalyzing {
-            ProgressBar(progress: CGFloat(appData.progress), height: 6)
-              .frame(height: 6, alignment: .top)
-            
-            
-          } else {
-            Text("welcome.button_analyze_again")
-              .foregroundColor(.white)
-              .padding(.horizontal, 25)
-              .padding(.vertical, 10)
-              .background(Color.pink)
-              .cornerRadius(25)
-              .contentShape(Rectangle())
-              .onTapGesture(perform: onAnalyze)
-          }
-          
-          Spacer()
-        }.frame(maxWidth: .infinity, minHeight: 140)
+        analyzingView
         
       } else {
-        VStack{
-          Spacer()
-          
-          Text("welcome.button_analyze")
-            .foregroundColor(.white)
-            .padding(.horizontal, 25)
-            .padding(.vertical, 10)
-            .background(Color.pink)
-            .cornerRadius(25)
-            .contentShape(Rectangle())
-            .onTapGesture(perform: onAnalyze)
-          
-          if appData.selectedDeveloperPath != nil {
-            VStack{
-              Text("Selected \(appData.selectedDeveloperPath!)")
-                .foregroundColor(.secondary)
-                .padding()
-              
-              Text("welcome.button_change_location")
-                .foregroundColor(.pink)
-                .padding()
-                .contentShape(Rectangle())
-                .onTapGesture(perform: choseDeveloperPath)
-            }
-          }
-          
-          Spacer()
-        }
-        .frame(height: 140)
+        startView
       }
       
     }
@@ -124,32 +127,32 @@ struct WelcomeView: View {
 struct WelcomeView_Previews: PreviewProvider {
   static var previews: some View {
     let appData = AppData()
-    appData.isAnalyzing = true
+    appData.isAnalyzing = false
     appData.totalCount = 500
     appData.analyzedCount = 400
     appData.totalSize = 6 * 10 * 1000 * 1000 * 1000
     
+    let analyzing = AppData()
+    analyzing.isAnalyzing = true
+    analyzing.totalCount = 500
+    analyzing.analyzedCount = 400
+    analyzing.totalSize = 6 * 10 * 1000 * 1000 * 1000
+    
     return Group{
-      HStack{
+      HStack {
+        WelcomeView()
+          .frame(width: 400, height: 500)
+          .environmentObject(AppData())
+        
         WelcomeView()
           .frame(width: 400, height: 500)
           .environmentObject(appData)
         
         WelcomeView()
           .frame(width: 400, height: 500)
-          .environmentObject(AppData())
-      }.environment(\.locale, Locale(identifier: "zh"))
-      
-      HStack{
-        WelcomeView()
-          .frame(width: 400, height: 500)
-          .environmentObject(appData)
-        
-        WelcomeView()
-          .frame(width: 400, height: 500)
-          .environmentObject(AppData())
+          .environmentObject(analyzing)
       }
     }
-    
+    .environment(\.locale, Locale(identifier: "zh"))
   }
 }
