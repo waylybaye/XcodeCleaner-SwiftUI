@@ -8,6 +8,8 @@
 import Cocoa
 import Combine
 import Foundation
+import SwiftUI
+
 
 let XCODE_NOT_FOUND = NSLocalizedString("xcode_not_found_title", comment: "Shows when xcode not found")
 let XCODE_NOT_FOUND_MSG = NSLocalizedString("xcode_not_found_body", comment:"No Xcode installation found in selected directory, it's usually at HOME/Library/Developer.")
@@ -105,6 +107,15 @@ struct AnalysisItem: Identifiable {
   let totalSize: UInt64
 }
 
+enum AppError: String, Error, Identifiable {
+  var id: Self {
+    self
+  }
+  
+  case invalidDeveloperPath
+}
+
+
 class AppData: ObservableObject {
   @Published var iosDeviceSupport = Analysis(group: .iosDeviceSupport)
   @Published var watchOsDeviceSupport = Analysis(group: .watchOsDeviceSupport)
@@ -120,6 +131,9 @@ class AppData: ObservableObject {
   @Published var totalSize: UInt64 = 0
   @Published var totalCount: Int = 0
   @Published var analyzedCount: Int = 0
+  
+//  @Published var alert: Alert?
+  @Published var lastError: AppError?
   
   var progress: Double {
     return totalCount == 0 ? 0 : Double(analyzedCount) / Double(totalCount)
@@ -152,7 +166,39 @@ class AppData: ObservableObject {
     self.totalSize = totalSize
   }
   
-  func analyze() {
+  func startAnalyze() {
+    if selectedDeveloperPath != nil {
+      analyze()
+      return
+    }
+    
+    let fh = FileHelper.standard
+    let defaultPath = fh.getDefaultXcodePath()
+    self.chooseLocation(defaultPath: defaultPath)
+  }
+  
+  func chooseLocation(defaultPath: String? = nil) {
+    let fh = FileHelper.standard
+
+    fh.authorize(defaultPath) {authorizedPath in
+      if fh.validateDeveloperPath(path: authorizedPath) {
+        self.selectedDeveloperPath = authorizedPath
+        self.analyze()
+        return
+      }
+      
+      self.lastError = .invalidDeveloperPath
+//      self.alert = Alert(
+//        title: Text("xcode_not_found_title"),
+//        message: Text("xcode_not_found_body"),
+//        primaryButton: .default(Text("xcode_choose_location"), action: self.chooseLocation),
+//        secondaryButton: .cancel()
+//      )
+    }
+    
+  }
+
+  private func analyze() {
     isAnalyzing = true
     totalSize = 0
     totalCount = 0

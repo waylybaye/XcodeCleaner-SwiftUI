@@ -17,7 +17,6 @@ class FileHelper {
     let sandboxPrefix = "/Library/Containers/";
     
     if homeDirectory.contains(sandboxPrefix) {
-      // production mode
       if let range = homeDirectory.range(of: sandboxPrefix){
         homeDirectory = String(homeDirectory[..<range.lowerBound])
       }
@@ -26,6 +25,7 @@ class FileHelper {
     return "\(homeDirectory)/Library/Developer/"
   }
   
+
   func validateDeveloperPath(default defualtPath: String, callback: @escaping (String) -> Void){
     authorize(defualtPath){
       var authorizedPath = $0
@@ -61,8 +61,13 @@ class FileHelper {
     }
   }
   
-  func authorize(_ path: String, callback: @escaping (String) -> Void){
-    if let bookmarkData = UserDefaults.standard.object(forKey: bookmarkKey(path)){
+  func validateDeveloperPath(path: String) -> Bool {
+    let xcodePath = path + "Xcode/";
+    return FileManager.default.fileExists(atPath: xcodePath, isDirectory: nil)
+  }
+  
+  func authorize(_ path: String?, callback: @escaping (String) -> Void){
+    if let path = path, let bookmarkData = UserDefaults.standard.object(forKey: bookmarkKey(path)){
       if self.resolveBookmark(data: bookmarkData as! Data){
         callback(path)
         return

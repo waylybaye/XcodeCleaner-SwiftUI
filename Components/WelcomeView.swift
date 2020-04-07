@@ -31,18 +31,19 @@ struct WelcomeView: View {
         
         fh.validateDeveloperPath(default: defaultPath) {path in
           self.appData.selectedDeveloperPath = path
-          self.appData.analyze()
+          self.appData.startAnalyze()
         }
         
       } else {
-        self.appData.analyze()
+        self.appData.startAnalyze()
       }
     }
   }
   
   func choseDeveloperPath() {
-    appData.selectedDeveloperPath = nil
-    onAnalyze()
+    appData.chooseLocation()
+//    appData.selectedDeveloperPath = nil
+//    onAnalyze()
   }
   
   var analyzingView: some View {
@@ -70,6 +71,12 @@ struct WelcomeView: View {
       Text("welcome.button_analyze")
         .modifier(ButtonModifier())
         .onTapGesture(perform: onAnalyze)
+      
+      Text("welcome.button_change_location")
+        .foregroundColor(.pink)
+        .padding()
+        .contentShape(Rectangle())
+        .onTapGesture(perform: choseDeveloperPath)
       
       if appData.selectedDeveloperPath != nil {
         VStack{
@@ -121,6 +128,19 @@ struct WelcomeView: View {
     .padding(.horizontal, 40)
     .padding(.vertical, 25)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .alert(item: $appData.lastError) { error in
+      switch error {
+      case .invalidDeveloperPath:
+        return Alert(
+          title: Text("xcode_not_found_title"),
+          message: Text("xcode_not_found_body"),
+          primaryButton: .default(Text("xcode_choose_location")) {
+            self.appData.chooseLocation()
+          },
+          secondaryButton: .cancel()
+        )
+      }
+    }
   }
 }
 
