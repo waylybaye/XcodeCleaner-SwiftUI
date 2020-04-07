@@ -86,7 +86,7 @@ struct WelcomeView: View {
       Spacer()
       
       Text("Cleaner for Xcode")
-        .font(Font.system(.largeTitle, design: .rounded))
+        .font(Font.system(.largeTitle, design: .default))
 
       Text("welcome.need_authorize")
         .multilineTextAlignment(.center)
