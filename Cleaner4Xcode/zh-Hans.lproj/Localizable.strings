@@ -10,7 +10,7 @@
 "welcome.need_authorize" = "需要您对 ~/Library/Developer 进行授权才可以分析该文件夹";
 "welcome.button_analyze" = "开始分析";
 "welcome.button_analyze_again" = "再来一遍";
-"welcome.button_change_location" = "选择 Developer 目录";
+"welcome.button_change_location" = "选择其它目录";
 
 "analysis.iOSDeviceSupport.summary" = "iOS 真机调试文件，设备通过 USB 连接时会自动生成对应系统版本的调试信息，只需要保留您持有的设备当前的最新版本即可。";
 "analysis.watchOSDeviceSupport.summary" = "watchOS 真机调试文件，设备通过 USB 连接时会自动生成对应系统版本的调试信息，只需要保留您持有的设备当前的最新版本即可。";

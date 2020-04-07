@@ -134,6 +134,7 @@ class AppData: ObservableObject {
   @Published var selectedGroup: Analysis?
   @Published var selectedDeveloperPath: String?
   
+  @Published var isAnalyzed: Bool = false
   @Published var isAnalyzing: Bool = false
   @Published var totalSize: UInt64 = 0
   @Published var totalCount: Int = 0
@@ -204,6 +205,7 @@ class AppData: ObservableObject {
   }
 
   private func analyze() {
+    isAnalyzed = false
     isAnalyzing = true
     totalSize = 0
     totalCount = 0
@@ -226,6 +228,10 @@ class AppData: ObservableObject {
         } catch let error {
           self.lastError = .analyzeError(error.localizedDescription)
         }
+      }
+      
+      if lastError == nil {
+        isAnalyzed = true
       }
     }
   }
@@ -283,6 +289,7 @@ class AppData: ObservableObject {
             
             if self.analyzedCount == self.totalCount {
               self.isAnalyzing = false
+              self.isAnalyzed = true
             }
           }
         }

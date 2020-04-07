@@ -59,16 +59,19 @@ struct WelcomeView: View {
         .modifier(ButtonModifier())
         .onTapGesture(perform: onAnalyze)
       
-      Text("welcome.button_change_location")
-        .foregroundColor(.pink)
-        .padding()
+      if appData.selectedDeveloperPath != nil {
+        VStack(alignment: .center, spacing: 10) {
+          
+          Text("Selected \(appData.selectedDeveloperPath!)")
+            .foregroundColor(.secondary)
+            .font(.caption)
+          
+          Text("welcome.button_change_location")
+            .foregroundColor(.pink)
+        }
         .contentShape(Rectangle())
         .onTapGesture(perform: choseDeveloperPath)
-      
-      if appData.selectedDeveloperPath != nil {
-        Text("Selected \(appData.selectedDeveloperPath!)")
-          .foregroundColor(.secondary)
-          .font(.caption)
+        .padding(.top, 20)
       }
     }
     .frame(height: 140)
@@ -96,7 +99,7 @@ struct WelcomeView: View {
       
       Spacer()
       
-      if appData.totalSize > 0 {
+      if appData.isAnalyzed || appData.isAnalyzed {
         analyzingView
         
       } else {
@@ -141,12 +144,11 @@ struct WelcomeView_Previews: PreviewProvider {
     analyzing.analyzedCount = 400
     analyzing.totalSize = 6 * 10 * 1000 * 1000 * 1000
     
+    let analyzed = AppData()
+    analyzed.isAnalyzed = true
+    
     return Group{
       HStack {
-        WelcomeView()
-          .frame(width: 400, height: 500)
-          .environmentObject(AppData())
-        
         WelcomeView()
           .frame(width: 400, height: 500)
           .environmentObject(appData)
@@ -154,6 +156,10 @@ struct WelcomeView_Previews: PreviewProvider {
         WelcomeView()
           .frame(width: 400, height: 500)
           .environmentObject(analyzing)
+        
+        WelcomeView()
+          .frame(width: 400, height: 500)
+          .environmentObject(analyzed)
       }
     }
     .environment(\.locale, Locale(identifier: "zh"))

@@ -26,12 +26,12 @@ struct AnalysisView: View {
             .bold()
             .foregroundColor(.pink)
           
-          if analysis.progress > 0 && analysis.progress < 1{
-            ProgressBar(progress: CGFloat(analysis.progress), height: 4)
-              .frame(width: 80, height: 3, alignment: .leading)
+          if analysis.progress > 0 && analysis.progress < 1 {
+            ProgressBar(progress: CGFloat(analysis.progress), height: 2)
+              .frame(width: 80, height: 2, alignment: .leading)
               .animation(.easeIn)
           } else {
-            Text("").frame(height: 3)
+            Text("").frame(height: 2)
           }
         }
         Spacer()
