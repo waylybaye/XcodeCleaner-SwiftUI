@@ -32,48 +32,10 @@ class FileHelper {
     }
     
     return "\(homeDirectory)/Library/Developer/"
-//    return URL(fileURLWithPath: path, isDirectory: true)
   }
-  
 
-  func validateDeveloperPath(default defualtPath: String, callback: @escaping (String) -> Void){
-    authorize(defualtPath){
-      var authorizedPath = $0
-      
-      if !authorizedPath.hasSuffix("/"){
-        authorizedPath += "/"
-      }
-      
-      print("authorizedPath", authorizedPath);
-      
-      let xcodePath = authorizedPath + "Xcode/";
-      let exists = FileManager.default.fileExists(atPath: xcodePath, isDirectory: nil)
-      
-      if exists {
-        callback(authorizedPath)
-        return
-      }
-      
-      
-      let alert = NSAlert()
-      
-      alert.messageText = XCODE_NOT_FOUND
-      alert.informativeText = XCODE_NOT_FOUND_MSG
-      alert.alertStyle = .warning
-      alert.addButton(withTitle: XCODE_CHOOSE_LOCATION)
-      alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel"))
-      
-      if alert.runModal() == .alertFirstButtonReturn{
-        self.validateDeveloperPath(default: defualtPath, callback: callback)
-      } else {
-        return
-      }
-    }
-  }
-  
   func validateDeveloperPath(path: String) -> Bool {
     let xcodePath = path.joinPath("Xcode");
-    print("validate", xcodePath)
     var isDirectory = ObjCBool(true)
     return FileManager.default.fileExists(atPath: xcodePath, isDirectory: &isDirectory) && isDirectory.boolValue
   }

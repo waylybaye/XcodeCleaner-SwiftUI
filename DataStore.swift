@@ -163,7 +163,6 @@ class AppData: ObservableObject {
     }
   }
 
-  // start analyze
   func startAnalyze() {
     let fh = FileHelper.standard
     
@@ -176,10 +175,8 @@ class AppData: ObservableObject {
     self.chooseLocation(defaultPath: defaultPath)
   }
   
-
   func chooseLocation(defaultPath: String? = nil) {
     let fh = FileHelper.standard
-
     fh.authorize(defaultPath, callback: self.authorized)
   }
   
