@@ -135,10 +135,7 @@ class AppData: ObservableObject {
   
   @Published var isAnalyzed: Bool = false
   @Published var isAnalyzing: Bool = false
-//  @Published var totalSize: UInt64 = 0
-//  @Published var totalCount: Int = 0
-//  @Published var analyzedCount: Int = 0
-  
+
   @Published var lastError: AppError?
   
   var totalSize: UInt64 {
@@ -210,23 +207,10 @@ class AppData: ObservableObject {
     self.analyze()
   }
 
-//  func recalculateTotal(){
-//    var totalSize: UInt64 = 0
-//
-//    for (analysis, _) in groups {
-//      totalSize += analysis.totalSize
-//    }
-//
-//    self.totalSize = totalSize
-//  }
-
   private func analyze() {
     isAnalyzed = false
     isAnalyzing = true
-//    totalSize = 0
-//    totalCount = 0
-//    analyzedCount = 0
-    
+
     let fm = FileManager.default
     
     if let path = self.selectedDeveloperPath {
@@ -260,8 +244,6 @@ class AppData: ObservableObject {
     analysis.itemsCount = subDirectories.count
     analysis.analyzedCount = 0
 
-//    totalCount += analysis.itemsCount
-    
     DispatchQueue.global(qos: .userInitiated).async {
       for var subDirectory in subDirectories{
         if !subDirectory.hasSuffix("/"){
@@ -271,7 +253,6 @@ class AppData: ObservableObject {
         guard let totalSize = try? fm.getDirectorySize(subDirectory) else {
           DispatchQueue.main.async {
             analysis.analyzedCount += 1
-//            self.analyzedCount += 1
           }
           
           continue
@@ -301,9 +282,6 @@ class AppData: ObservableObject {
           
           analysis.analyzedCount += 1
           analysis.totalSize += totalSize
-
-//          self.analyzedCount += 1
-//          self.totalSize += totalSize
         }
       }
       

@@ -58,8 +58,6 @@ struct MainWindowView: View {
           $0 + $1.totalSize
         }
       }
-      
-//      data.recalculateTotal()
     } catch {
       print("\(error.localizedDescription)")
       print("\(error)")
