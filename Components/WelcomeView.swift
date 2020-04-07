@@ -25,25 +25,12 @@ struct WelcomeView: View {
   
   func onAnalyze() {
     withAnimation{
-      if appData.selectedDeveloperPath == nil {
-        let fh = FileHelper.standard
-        let defaultPath = fh.getDefaultXcodePath()
-        
-        fh.validateDeveloperPath(default: defaultPath) {path in
-          self.appData.selectedDeveloperPath = path
-          self.appData.startAnalyze()
-        }
-        
-      } else {
-        self.appData.startAnalyze()
-      }
+      self.appData.startAnalyze()
     }
   }
   
   func choseDeveloperPath() {
     appData.chooseLocation()
-//    appData.selectedDeveloperPath = nil
-//    onAnalyze()
   }
   
   var analyzingView: some View {
@@ -79,17 +66,9 @@ struct WelcomeView: View {
         .onTapGesture(perform: choseDeveloperPath)
       
       if appData.selectedDeveloperPath != nil {
-        VStack{
-          Text("Selected \(appData.selectedDeveloperPath!)")
-            .foregroundColor(.secondary)
-            .padding()
-          
-          Text("welcome.button_change_location")
-            .foregroundColor(.pink)
-            .padding()
-            .contentShape(Rectangle())
-            .onTapGesture(perform: choseDeveloperPath)
-        }
+        Text("Selected \(appData.selectedDeveloperPath!)")
+          .foregroundColor(.secondary)
+          .font(.caption)
       }
     }
     .frame(height: 140)
@@ -130,11 +109,15 @@ struct WelcomeView: View {
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .alert(item: $appData.lastError) { error in
       switch error {
+        
+      case .analyzeError(let message):
+        return Alert(title: Text("Error"), message: Text(verbatim: message), dismissButton: .cancel())
+        
       case .invalidDeveloperPath:
         return Alert(
           title: Text("xcode_not_found_title"),
           message: Text("xcode_not_found_body"),
-          primaryButton: .default(Text("xcode_choose_location")) {
+          primaryButton: .default(Text("welcome.button_change_location")) {
             self.appData.chooseLocation()
           },
           secondaryButton: .cancel()

@@ -8,11 +8,20 @@
 import Cocoa
 import Foundation
 
+extension String {
+  func joinPath(_ subPath: String) -> String {
+    if self.hasSuffix("/") {
+      return self + subPath
+    }
+    return self + "/" + subPath
+  }
+}
+
 
 class FileHelper {
   public static let standard = FileHelper()
   
-  func getDefaultXcodePath() -> String{
+  func getDefaultXcodePath() -> String {
     var homeDirectory = NSHomeDirectory();
     let sandboxPrefix = "/Library/Containers/";
     
@@ -23,6 +32,7 @@ class FileHelper {
     }
     
     return "\(homeDirectory)/Library/Developer/"
+//    return URL(fileURLWithPath: path, isDirectory: true)
   }
   
 
@@ -62,8 +72,10 @@ class FileHelper {
   }
   
   func validateDeveloperPath(path: String) -> Bool {
-    let xcodePath = path + "Xcode/";
-    return FileManager.default.fileExists(atPath: xcodePath, isDirectory: nil)
+    let xcodePath = path.joinPath("Xcode");
+    print("validate", xcodePath)
+    var isDirectory = ObjCBool(true)
+    return FileManager.default.fileExists(atPath: xcodePath, isDirectory: &isDirectory) && isDirectory.boolValue
   }
   
   func authorize(_ path: String?, callback: @escaping (String) -> Void){
@@ -85,6 +97,7 @@ class FileHelper {
     openPanel.begin { (result) -> Void in
       if result == NSApplication.ModalResponse.OK {
         let url = openPanel.urls.first!
+        print("selected url", url, url.path)
         do{
           let bookmarkData = try url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
           UserDefaults.standard.setValue(bookmarkData, forKey: bookmarkKey(url: url))
@@ -126,24 +139,19 @@ class FileHelper {
   func listDirectory(_ path: String, onlyDirectory: Bool) throws -> [String]{
     var results = [String]()
     
-    do {
+    let filenames = try FileManager.default.contentsOfDirectory(atPath: path)
+    
+    for filename in filenames{
+      let fullPath = path + filename
+      var isDirectory = ObjCBool(false)
+      FileManager.default.fileExists(atPath: fullPath, isDirectory: &isDirectory)
       
-      let filenames = try FileManager.default.contentsOfDirectory(atPath: path)
-      
-      for filename in filenames{
-        let fullPath = path + filename
-        var isDirectory = ObjCBool(false)
-        FileManager.default.fileExists(atPath: fullPath, isDirectory: &isDirectory)
+      if (!onlyDirectory){
+        results.append(fullPath)
         
-        if (!onlyDirectory){
-          results.append(fullPath)
-          
-        } else if (isDirectory).boolValue{
-          results.append(fullPath)
-        }
+      } else if (isDirectory).boolValue{
+        results.append(fullPath)
       }
-    } catch {
-      print("Error \(error)")
     }
     
     return results
@@ -153,14 +161,12 @@ class FileHelper {
     var size: UInt64 = 0
     
     let contents = FileManager.default.subpaths(atPath: path)
-    //        print("subPaths: \(contents)")
-    
+
     for subpath in contents!{
       let fileAttrs = try FileManager.default.attributesOfItem(atPath: path + subpath)
       size += fileAttrs[FileAttributeKey.size] as! UInt64
     }
     
-    //        print("total size", size)
     return size;
   }
 }

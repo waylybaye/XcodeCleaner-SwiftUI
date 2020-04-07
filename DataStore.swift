@@ -28,7 +28,8 @@ func alert(_ text: String, title: String = "Alert") -> Void {
 }
 
 func bookmarkKey(_ path: String) -> String{
-  return "bm:\(path.hasSuffix("/") ? path : path + "/")"
+//  return "bm:\(path.hasSuffix("/") ? path : path + "/")"
+  return "bm2:\(path)"
 }
 
 func bookmarkKey(url: URL) -> String{
@@ -89,7 +90,7 @@ class Analysis: ObservableObject {
   @Published var totalSize: UInt64 = 0
   @Published var progress: Double = 0
   @Published var items = [AnalysisItem]()
-  
+
   init(group: AnalysisGroup) {
     self.group = group
   }
@@ -107,12 +108,18 @@ struct AnalysisItem: Identifiable {
   let totalSize: UInt64
 }
 
-enum AppError: String, Error, Identifiable {
-  var id: Self {
-    self
+enum AppError: Error, Identifiable {
+  var id: String {
+    switch self {
+    case .analyzeError(let error):
+      return error
+    case .invalidDeveloperPath:
+      return "invalidDeveloeprPath"
+    }
   }
   
   case invalidDeveloperPath
+  case analyzeError(String)
 }
 
 
@@ -155,7 +162,40 @@ class AppData: ObservableObject {
       self.selectedDeveloperPath = path
     }
   }
+
+  // start analyze
+  func startAnalyze() {
+    let fh = FileHelper.standard
+    
+    if let path = selectedDeveloperPath {
+      fh.authorize(path, callback: self.authorized)
+      return
+    }
+    
+    let defaultPath = fh.getDefaultXcodePath()
+    self.chooseLocation(defaultPath: defaultPath)
+  }
   
+
+  func chooseLocation(defaultPath: String? = nil) {
+    let fh = FileHelper.standard
+
+    fh.authorize(defaultPath, callback: self.authorized)
+  }
+  
+  private func authorized(at authorizedPath: String) {
+    let fh = FileHelper.standard
+    
+    if !fh.validateDeveloperPath(path: authorizedPath) {
+      self.lastError = .invalidDeveloperPath
+      return
+    }
+    
+    UserDefaults.standard.set(authorizedPath, forKey: "selectedDeveloperPath")
+    self.selectedDeveloperPath = authorizedPath
+    self.analyze()
+  }
+
   func recalculateTotal(){
     var totalSize: UInt64 = 0
     
@@ -165,38 +205,6 @@ class AppData: ObservableObject {
     
     self.totalSize = totalSize
   }
-  
-  func startAnalyze() {
-    if selectedDeveloperPath != nil {
-      analyze()
-      return
-    }
-    
-    let fh = FileHelper.standard
-    let defaultPath = fh.getDefaultXcodePath()
-    self.chooseLocation(defaultPath: defaultPath)
-  }
-  
-  func chooseLocation(defaultPath: String? = nil) {
-    let fh = FileHelper.standard
-
-    fh.authorize(defaultPath) {authorizedPath in
-      if fh.validateDeveloperPath(path: authorizedPath) {
-        self.selectedDeveloperPath = authorizedPath
-        self.analyze()
-        return
-      }
-      
-      self.lastError = .invalidDeveloperPath
-//      self.alert = Alert(
-//        title: Text("xcode_not_found_title"),
-//        message: Text("xcode_not_found_body"),
-//        primaryButton: .default(Text("xcode_choose_location"), action: self.chooseLocation),
-//        secondaryButton: .cancel()
-//      )
-    }
-    
-  }
 
   private func analyze() {
     isAnalyzing = true
@@ -204,82 +212,90 @@ class AppData: ObservableObject {
     totalCount = 0
     analyzedCount = 0
     
+    let fm = FileManager.default
+    
     if let path = self.selectedDeveloperPath {
       for (analysis, subPath) in groups {
+        
+        let fullPath = path.joinPath(subPath)
+        var isDirectory = ObjCBool(true)
+        guard fm.fileExists(atPath: fullPath, isDirectory: &isDirectory) && isDirectory.boolValue else {
+          continue
+        }
+        
         analysis.items = []
-        analyzeGroup(analysis: analysis, developerPath: path + subPath)
+        do {
+          try analyzeGroup(analysis: analysis, developerPath: fullPath)
+        } catch let error {
+          self.lastError = .analyzeError(error.localizedDescription)
+        }
       }
     }
   }
   
-  func analyzeGroup(analysis: Analysis, developerPath path: String){
-    do{
-      let fm = FileHelper.standard
-      let subDirectories = try fm.listDirectory(path, onlyDirectory: true)
-      analysis.totalSize = 0
-      analysis.itemsCount = subDirectories.count
-      analysis.analyzedCount = 0
-      analysis.progress = 0
-      
-      totalCount += analysis.itemsCount
-      
-      DispatchQueue.global(qos: .userInitiated).async {
-        do{
-          for var subDirectory in subDirectories{
-            if !subDirectory.hasSuffix("/"){
-              subDirectory += "/"
-            }
-            
-            let totalSize = try fm.getDirectorySize(subDirectory)
-            
-            var display = String(subDirectory.split(separator: "/").last!)
-            
-            if analysis.group == .simulators {
-              if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
-                let name: String = plist["name"] as! String
-                var version = String((plist["runtime"] as! String).split(separator: ".").last!)
-                version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
-                display = "\(name) (\(version))"
-              }
-              
-            } else if analysis.group == .previews {
-              if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
-                let name: String = plist["name"] as! String
-                var version = String((plist["runtime"] as! String).split(separator: ".").last!)
-                version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
-                display = "\(name) (\(version))"
-              }
-            }
-            
-            DispatchQueue.main.async {
-              self.objectWillChange.send()
-              
-              analysis.items.append(
-                AnalysisItem(path: subDirectory, displayName: display, totalSize: totalSize)
-              )
-              
-              analysis.items.sort {
-                $0.totalSize > $1.totalSize
-              }
-              
-              analysis.analyzedCount += 1
-              analysis.totalSize += totalSize
-              analysis.progress = Double(analysis.analyzedCount) / Double(analysis.itemsCount)
-              
-              self.analyzedCount += 1
-              self.totalSize += totalSize
-              
-              if self.analyzedCount == self.totalCount {
-                self.isAnalyzing = false
-              }
+  func analyzeGroup(analysis: Analysis, developerPath path: String) throws {
+    let fm = FileHelper.standard
+    var subDirectories = [String]()
+    
+    subDirectories = try fm.listDirectory(path, onlyDirectory: true)
+
+    analysis.totalSize = 0
+    analysis.itemsCount = subDirectories.count
+    analysis.analyzedCount = 0
+    analysis.progress = 0
+    
+    totalCount += analysis.itemsCount
+    
+    DispatchQueue.global(qos: .userInitiated).async {
+      do{
+        for var subDirectory in subDirectories{
+          if !subDirectory.hasSuffix("/"){
+            subDirectory += "/"
+          }
+          
+          let totalSize = try fm.getDirectorySize(subDirectory)
+          
+          var display = String(subDirectory.split(separator: "/").last!)
+          
+          if analysis.group == .simulators || analysis.group == .previews {
+            if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
+              let name: String = plist["name"] as! String
+              var version = String((plist["runtime"] as! String).split(separator: ".").last!)
+              version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
+              display = "\(name) (\(version))"
             }
           }
-        } catch {
-          print("\(error)")
+          
+          DispatchQueue.main.async {
+            self.objectWillChange.send()
+            
+            analysis.items.append(
+              AnalysisItem(path: subDirectory, displayName: display, totalSize: totalSize)
+            )
+            
+            analysis.items.sort {
+              $0.totalSize > $1.totalSize
+            }
+            
+            analysis.analyzedCount += 1
+            analysis.totalSize += totalSize
+            analysis.progress = Double(analysis.analyzedCount) / Double(analysis.itemsCount)
+            
+            self.analyzedCount += 1
+            self.totalSize += totalSize
+            
+            if self.analyzedCount == self.totalCount {
+              self.isAnalyzing = false
+            }
+          }
+        }
+      } catch let error {
+        print("analyzie error: \(error)")
+        
+        DispatchQueue.main.async {
+          self.lastError = .analyzeError(error.localizedDescription)
         }
       }
-    } catch {
-      print("\(error)")
     }
   }
 }
