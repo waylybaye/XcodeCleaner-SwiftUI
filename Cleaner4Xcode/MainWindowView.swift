@@ -97,14 +97,12 @@ struct MainWindowView: View {
             .cornerRadius(5)
             .onTapGesture {
               if self.data.selectedGroup !== group{
-                withAnimation{
-                  self.data.selectedGroup = group
-                }
+                self.data.selectedGroup = group
               }
           }
         }
       }
-      .frame(width: 220)
+      .frame(width: 200)
       .padding()
       
       ZStack{
@@ -114,14 +112,9 @@ struct MainWindowView: View {
           
         } else {
           List {
-            VStack(alignment: .leading){
-              Text(LocalizedStringKey(
-                data.selectedGroup!.group.describe().summary))
-                .foregroundColor(.secondary)
-                .padding(.top)
-              
-              Divider()
-              
+            Section(header: Text(LocalizedStringKey(
+              data.selectedGroup!.group.describe().summary)).frame(height: 40)) {
+
               ForEach(data.selectedGroup!.items) { item in
                 ItemRow(
                   item: item,
