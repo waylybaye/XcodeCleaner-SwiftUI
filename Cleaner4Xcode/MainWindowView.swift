@@ -59,7 +59,7 @@ struct MainWindowView: View {
         }
       }
       
-      data.recalculateTotal()
+//      data.recalculateTotal()
     } catch {
       print("\(error.localizedDescription)")
       print("\(error)")

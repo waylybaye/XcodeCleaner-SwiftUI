@@ -99,7 +99,7 @@ struct WelcomeView: View {
       
       Spacer()
       
-      if appData.isAnalyzed || appData.isAnalyzed {
+      if appData.isAnalyzed || appData.isAnalyzing {
         analyzingView
         
       } else {
@@ -134,15 +134,15 @@ struct WelcomeView_Previews: PreviewProvider {
   static var previews: some View {
     let appData = AppData()
     appData.isAnalyzing = false
-    appData.totalCount = 500
-    appData.analyzedCount = 400
-    appData.totalSize = 6 * 10 * 1000 * 1000 * 1000
+//    appData.totalCount = 500
+//    appData.analyzedCount = 400
+//    appData.totalSize = 6 * 10 * 1000 * 1000 * 1000
     
     let analyzing = AppData()
     analyzing.isAnalyzing = true
-    analyzing.totalCount = 500
-    analyzing.analyzedCount = 400
-    analyzing.totalSize = 6 * 10 * 1000 * 1000 * 1000
+//    analyzing.totalCount = 500
+//    analyzing.analyzedCount = 400
+//    analyzing.totalSize = 6 * 10 * 1000 * 1000 * 1000
     
     let analyzed = AppData()
     analyzed.isAnalyzed = true

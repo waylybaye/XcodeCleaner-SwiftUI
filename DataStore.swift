@@ -88,8 +88,11 @@ class Analysis: ObservableObject {
   @Published var analyzedCount: Int = 0
   
   @Published var totalSize: UInt64 = 0
-  @Published var progress: Double = 0
   @Published var items = [AnalysisItem]()
+  
+  var progress: Double {
+    return itemsCount == 0 ? 1 : Double(analyzedCount) / Double(itemsCount)
+  }
 
   init(group: AnalysisGroup) {
     self.group = group
@@ -97,10 +100,6 @@ class Analysis: ObservableObject {
 }
 
 struct AnalysisItem: Identifiable {
-//  var id: String {
-//    path
-//  }
-  
   var id = UUID()
   
   let path: String
@@ -136,13 +135,30 @@ class AppData: ObservableObject {
   
   @Published var isAnalyzed: Bool = false
   @Published var isAnalyzing: Bool = false
-  @Published var totalSize: UInt64 = 0
-  @Published var totalCount: Int = 0
-  @Published var analyzedCount: Int = 0
+//  @Published var totalSize: UInt64 = 0
+//  @Published var totalCount: Int = 0
+//  @Published var analyzedCount: Int = 0
   
-//  @Published var alert: Alert?
   @Published var lastError: AppError?
   
+  var totalSize: UInt64 {
+    groups.reduce(0) {
+      $0 + $1.0.totalSize
+    }
+  }
+  
+  var analyzedCount: Int {
+    groups.reduce(0) {
+      $0 + $1.0.analyzedCount
+    }
+  }
+  
+  var totalCount: Int {
+    groups.reduce(0) {
+      $0 + $1.0.itemsCount
+    }
+  }
+
   var progress: Double {
     return totalCount == 0 ? 0 : Double(analyzedCount) / Double(totalCount)
   }
@@ -194,22 +210,22 @@ class AppData: ObservableObject {
     self.analyze()
   }
 
-  func recalculateTotal(){
-    var totalSize: UInt64 = 0
-    
-    for (analysis, _) in groups {
-      totalSize += analysis.totalSize
-    }
-    
-    self.totalSize = totalSize
-  }
+//  func recalculateTotal(){
+//    var totalSize: UInt64 = 0
+//
+//    for (analysis, _) in groups {
+//      totalSize += analysis.totalSize
+//    }
+//
+//    self.totalSize = totalSize
+//  }
 
   private func analyze() {
     isAnalyzed = false
     isAnalyzing = true
-    totalSize = 0
-    totalCount = 0
-    analyzedCount = 0
+//    totalSize = 0
+//    totalCount = 0
+//    analyzedCount = 0
     
     let fm = FileManager.default
     
@@ -218,20 +234,18 @@ class AppData: ObservableObject {
         
         let fullPath = path.joinPath(subPath)
         var isDirectory = ObjCBool(true)
+        
         guard fm.fileExists(atPath: fullPath, isDirectory: &isDirectory) && isDirectory.boolValue else {
           continue
         }
         
         analysis.items = []
+        
         do {
           try analyzeGroup(analysis: analysis, developerPath: fullPath)
         } catch let error {
           self.lastError = .analyzeError(error.localizedDescription)
         }
-      }
-      
-      if lastError == nil {
-        isAnalyzed = true
       }
     }
   }
@@ -245,59 +259,58 @@ class AppData: ObservableObject {
     analysis.totalSize = 0
     analysis.itemsCount = subDirectories.count
     analysis.analyzedCount = 0
-    analysis.progress = 0
-    
-    totalCount += analysis.itemsCount
+
+//    totalCount += analysis.itemsCount
     
     DispatchQueue.global(qos: .userInitiated).async {
-      do{
-        for var subDirectory in subDirectories{
-          if !subDirectory.hasSuffix("/"){
-            subDirectory += "/"
-          }
-          
-          let totalSize = try fm.getDirectorySize(subDirectory)
-          
-          var display = String(subDirectory.split(separator: "/").last!)
-          
-          if analysis.group == .simulators || analysis.group == .previews {
-            if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
-              let name: String = plist["name"] as! String
-              var version = String((plist["runtime"] as! String).split(separator: ".").last!)
-              version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
-              display = "\(name) (\(version))"
-            }
-          }
-          
+      for var subDirectory in subDirectories{
+        if !subDirectory.hasSuffix("/"){
+          subDirectory += "/"
+        }
+        
+        guard let totalSize = try? fm.getDirectorySize(subDirectory) else {
           DispatchQueue.main.async {
-            self.objectWillChange.send()
-            
-            analysis.items.append(
-              AnalysisItem(path: subDirectory, displayName: display, totalSize: totalSize)
-            )
-            
-            analysis.items.sort {
-              $0.totalSize > $1.totalSize
-            }
-            
             analysis.analyzedCount += 1
-            analysis.totalSize += totalSize
-            analysis.progress = Double(analysis.analyzedCount) / Double(analysis.itemsCount)
-            
-            self.analyzedCount += 1
-            self.totalSize += totalSize
-            
-            if self.analyzedCount == self.totalCount {
-              self.isAnalyzing = false
-              self.isAnalyzed = true
-            }
+//            self.analyzedCount += 1
+          }
+          
+          continue
+        }
+        
+        var display = String(subDirectory.split(separator: "/").last!)
+        
+        if analysis.group == .simulators || analysis.group == .previews {
+          if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
+            let name: String = plist["name"] as! String
+            var version = String((plist["runtime"] as! String).split(separator: ".").last!)
+            version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
+            display = "\(name) (\(version))"
           }
         }
-      } catch let error {
-        print("analyzie error: \(error)")
         
         DispatchQueue.main.async {
-          self.lastError = .analyzeError(error.localizedDescription)
+          self.objectWillChange.send()
+          
+          analysis.items.append(
+            AnalysisItem(path: subDirectory, displayName: display, totalSize: totalSize)
+          )
+          
+          analysis.items.sort {
+            $0.totalSize > $1.totalSize
+          }
+          
+          analysis.analyzedCount += 1
+          analysis.totalSize += totalSize
+
+//          self.analyzedCount += 1
+//          self.totalSize += totalSize
+        }
+      }
+      
+      DispatchQueue.main.async {
+        if self.analyzedCount == self.totalCount {
+          self.isAnalyzing = false
+          self.isAnalyzed = true
         }
       }
     }
