@@ -111,10 +111,14 @@ struct MainWindowView: View {
             .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
           
         } else {
-          List {
-            Section(header: Text(LocalizedStringKey(
-              data.selectedGroup!.group.describe().summary)).frame(height: 40)) {
-
+          VStack (alignment: .leading, spacing: 0) {
+            Text(LocalizedStringKey(
+              data.selectedGroup!.group.describe().summary))
+              .font(.caption)
+              .foregroundColor(.secondary)
+              .frame(height: 40)
+            
+            List {
               ForEach(data.selectedGroup!.items) { item in
                 ItemRow(
                   item: item,
