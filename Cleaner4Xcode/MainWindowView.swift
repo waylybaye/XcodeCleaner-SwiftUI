@@ -43,7 +43,7 @@ struct MainWindowView: View {
   
   func revealPath(path: String){
     let url = URL.init(fileURLWithPath: path, isDirectory: true)
-    NSWorkspace.shared.activateFileViewerSelecting([url])
+    NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: url.path)
   }
   
   func trashPath(path: String, analysis: Analysis){
