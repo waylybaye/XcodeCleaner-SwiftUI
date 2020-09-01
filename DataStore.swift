@@ -61,7 +61,7 @@ func humanize(_ fileSize: UInt64) -> String{
 }
 
 enum AnalysisGroup: String{
-  case archives, simulators, iosDeviceSupport, watchOsDeviceSupport, derivedData, previews;
+  case archives, simulators, iosDeviceSupport, watchOsDeviceSupport, derivedData, previews, coreSimulatorCaches;
   
   func describe() -> (title: String, summary: String) {
     switch self {
@@ -77,6 +77,8 @@ enum AnalysisGroup: String{
       return ("watchOS DeviceSupport", "analysis.watchOSDeviceSupport.summary")
     case .previews:
       return ("SwiftUI Previews", "analysis.previews.summary")
+    case .coreSimulatorCaches:
+      return ("Caches", "analysis.simulators.caches")
     }
   }
 }
@@ -129,7 +131,8 @@ class AppData: ObservableObject {
   @Published var simulators = Analysis(group: .simulators)
   @Published var derivedData = Analysis(group: .derivedData)
   @Published var previews = Analysis(group: .previews)
-  
+  @Published var coreSimulatorCaches = Analysis(group: .coreSimulatorCaches)
+
   @Published var selectedGroup: Analysis?
   @Published var selectedDeveloperPath: String?
   
@@ -168,6 +171,7 @@ class AppData: ObservableObject {
       (previews, "Xcode/UserData/Previews/Simulator Devices/"),
       (derivedData, "Xcode/DerivedData/"),
       (archives, "Xcode/Archives/"),
+      (coreSimulatorCaches, "CoreSimulator/Caches/dyld/"),
     ]
   }
   
