@@ -18,13 +18,18 @@ struct AnalysisView: View {
     return
       HStack{
         VStack(alignment: .leading, spacing: 5) {
-          Text(title).font(.footnote)
-            .foregroundColor(.primary)
-          
-          Text(humanize(analysis.totalSize))
-            .font(Font.headline.monospacedDigit())
-            .bold()
-            .foregroundColor(.pink)
+//          HStack {
+            Text(title)
+              .font(.subheadline)
+              .foregroundColor(.primary)
+            
+//            Spacer()
+            
+            Text(humanize(analysis.totalSize))
+              .font(Font.headline.monospacedDigit())
+              .bold()
+              .foregroundColor(.pink)
+//          }
           
           if analysis.progress > 0 && analysis.progress < 1 {
             ProgressBar(progress: CGFloat(analysis.progress), height: 2)
@@ -34,9 +39,9 @@ struct AnalysisView: View {
             Text("").frame(height: 2)
           }
         }
-        Spacer()
+//        Spacer()
       }
-      .frame(maxWidth: .infinity)
+      .frame(maxWidth: .infinity, alignment: .leading)
   }
 }
 

@@ -39,6 +39,7 @@ struct MainWindowView: View {
   @ObservedObject var data = AppData()
   
   func onAppear(){
+    self.data.selectedGroup = data.archives
   }
   
   func revealPath(path: String){
@@ -66,30 +67,32 @@ struct MainWindowView: View {
   
   var body: some View {
     let groups = data.groups.map {$0.0}
+    let detailWidth: CGFloat = 500
+//    var columns: [GridItem] =
+//            Array(repeating: .init(.flexible()), count: 2)
     
-    return HStack(alignment: .top, spacing: 0){
-      
-      VStack(alignment: .leading, spacing: 0){
+    return NavigationView {
+      List {
         Text("sidebar.welcome")
           .font(.body)
           .foregroundColor(.primary)
           .multilineTextAlignment(.leading)
-          .padding(.horizontal)
-          .padding(.vertical, 10)
+          .padding(.horizontal, 10)
+          .padding(.vertical, 8)
           .frame(minWidth: 80, maxWidth: .infinity, alignment: .leading)
           .contentShape(Rectangle())
           .background(self.data.selectedGroup == nil ? Color("underpageBackground") : Color.clear)
-          .cornerRadius(20)
-          .padding(.bottom, 15)
+          .cornerRadius(5)
+          .padding(.vertical, 10)
           .onTapGesture {
             self.data.selectedGroup = nil;
-        }
+          }
         
         
         ForEach(groups, id: \.group) { group in
           AnalysisView(analysis: group)
-            .padding(.horizontal)
-            .padding(.vertical, 10)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
             .contentShape(Rectangle())
             .background(self.data.selectedGroup === group ? Color("underpageBackground") : Color.clear)
             .cornerRadius(5)
@@ -97,44 +100,53 @@ struct MainWindowView: View {
               if self.data.selectedGroup !== group{
                 self.data.selectedGroup = group
               }
-          }
+            }
         }
       }
+      .listStyle(SidebarListStyle())
       .frame(width: 200)
-      .padding()
       
-      ZStack{
+      ZStack {
         if data.selectedGroup === nil {
           WelcomeView()
-            .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
+            .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
           
         } else {
           VStack (alignment: .leading, spacing: 0) {
-            Text(LocalizedStringKey(
-              data.selectedGroup!.group.describe().summary))
-              .font(.caption)
-              .foregroundColor(.secondary)
-              .frame(height: 40)
+            
+            HStack(alignment: .top) {
+              
+              Text(LocalizedStringKey(
+                    data.selectedGroup!.group.describe().summary))
+                .font(.footnote)
+              
+              Spacer()
+              
+              Button("Reveal in Finder") {
+              }
+            }
+            .padding(.horizontal)
+            .padding(.bottom)
             
             List {
+              
               ForEach(data.selectedGroup!.items) { item in
                 ItemRow(
                   item: item,
                   onReveal: {
                     self.revealPath(path: item.path)
-                },
+                  },
                   onTrash: {
                     self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
-                }
+                  }
                 )
               }
             }
           }
-          .frame(minWidth: 400, maxWidth: .infinity)
+          .frame(minWidth: detailWidth, maxWidth: .infinity)
         }
       }
     }
-    .background(Color(NSColor.windowBackgroundColor))
     .onAppear(perform: self.onAppear)
     .environmentObject(data)
   }
