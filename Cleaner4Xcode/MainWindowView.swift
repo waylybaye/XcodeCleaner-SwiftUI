@@ -18,6 +18,9 @@ func ItemRow(
   onTrash: @escaping () -> Void
 ) -> some View {
   
+  let dateFormatter = DateFormatter()
+  dateFormatter.dateFormat = "yyyy-MM-dd"
+  
   return HStack {
     Text(item.displayName)
       .font(.subheadline)
@@ -26,7 +29,13 @@ func ItemRow(
     Spacer()
     
     Text(humanize(item.totalSize))
+      .font(.subheadline)
       .padding(.horizontal)
+    
+    Text(dateFormatter.string(from: item.modifyDate))
+      .foregroundColor(.secondary)
+      .font(Font.subheadline.monospacedDigit())
+      .lineLimit(1)
     
     Button(action: onReveal) {
       Image(systemName: "magnifyingglass.circle.fill")
@@ -77,7 +86,7 @@ struct MainWindowView: View {
   
   var body: some View {
     let groups = data.groups.map {$0.0}
-    let detailWidth: CGFloat = 500
+    let detailWidth: CGFloat = 550
     
     return NavigationView {
       List {

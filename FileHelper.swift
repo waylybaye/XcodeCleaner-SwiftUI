@@ -131,4 +131,11 @@ class FileHelper {
     
     return size;
   }
+  
+  func getDirectoryUpdateDate(_ path: String) throws -> Date {
+    var size: UInt64 = 0
+    
+    let fileAttrs = try FileManager.default.attributesOfItem(atPath: path)
+    return fileAttrs[FileAttributeKey.modificationDate] as! Date
+  }
 }

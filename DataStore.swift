@@ -107,6 +107,7 @@ struct AnalysisItem: Identifiable {
   let path: String
   let displayName: String
   let totalSize: UInt64
+  let modifyDate: Date
 }
 
 enum AppError: Error, Identifiable {
@@ -277,7 +278,11 @@ class AppData: ObservableObject {
           self.objectWillChange.send()
           
           analysis.items.append(
-            AnalysisItem(path: subDirectory, displayName: display, totalSize: totalSize)
+            AnalysisItem(
+              path: subDirectory, displayName: display,
+              totalSize: totalSize,
+              modifyDate: (try? fm.getDirectoryUpdateDate(subDirectory)) ?? Date(timeIntervalSince1970: 0)
+              )
           )
           
           analysis.items.sort {
