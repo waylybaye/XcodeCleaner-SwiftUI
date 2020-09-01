@@ -9,14 +9,18 @@
 import SwiftUI
 
 
+let revealIcon = Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
+let trashIcon = Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
+
 func ItemRow(
   item: AnalysisItem,
   onReveal: @escaping () -> Void,
   onTrash: @escaping () -> Void
 ) -> some View {
   
-  return HStack{
+  return HStack {
     Text(item.displayName)
+      .font(.subheadline)
       .lineLimit(1)
     
     Spacer()
@@ -25,13 +29,19 @@ func ItemRow(
       .padding(.horizontal)
     
     Button(action: onReveal) {
-      Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
+      Image(systemName: "magnifyingglass.circle.fill")
+//      Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
+//      revealIcon
     }
     
     Button(action: onTrash) {
-      Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
+      Image(systemName: "trash.circle.fill")
+
+//      trashIcon
+//      Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
     }
   }
+  .padding(.vertical, 5)
 }
 
 
@@ -68,8 +78,6 @@ struct MainWindowView: View {
   var body: some View {
     let groups = data.groups.map {$0.0}
     let detailWidth: CGFloat = 500
-//    var columns: [GridItem] =
-//            Array(repeating: .init(.flexible()), count: 2)
     
     return NavigationView {
       List {
@@ -129,7 +137,6 @@ struct MainWindowView: View {
             .padding(.bottom)
             
             List {
-              
               ForEach(data.selectedGroup!.items) { item in
                 ItemRow(
                   item: item,
