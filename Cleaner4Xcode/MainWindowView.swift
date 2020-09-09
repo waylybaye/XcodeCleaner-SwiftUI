@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 let revealIcon = Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
 let trashIcon = Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
 
@@ -38,15 +37,14 @@ func ItemRow(
       .lineLimit(1)
     
     Button(action: onReveal) {
-      Image(systemName: "magnifyingglass.circle.fill")
+//      Image(systemName: "magnifyingglass.circle.fill")
 //      Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
-//      revealIcon
+      revealIcon
     }
     
     Button(action: onTrash) {
-      Image(systemName: "trash.circle.fill")
-
-//      trashIcon
+//      Image(systemName: "trash.circle.fill")
+      trashIcon
 //      Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
     }
   }
@@ -58,7 +56,7 @@ struct MainWindowView: View {
   @ObservedObject var data = AppData()
   
   func onAppear(){
-    self.data.selectedGroup = data.archives
+//    self.data.selectedGroup = data.archives
   }
   
   func revealPath(path: String){
@@ -87,6 +85,7 @@ struct MainWindowView: View {
   var body: some View {
     let groups = data.groups.map {$0.0}
     let detailWidth: CGFloat = 550
+    let selectedColor = Color.pink.opacity(0.2)
     
     return NavigationView {
       List {
@@ -98,7 +97,7 @@ struct MainWindowView: View {
           .padding(.vertical, 8)
           .frame(minWidth: 80, maxWidth: .infinity, alignment: .leading)
           .contentShape(Rectangle())
-          .background(self.data.selectedGroup == nil ? Color("underpageBackground") : Color.clear)
+          .background(self.data.selectedGroup === nil ? selectedColor : nil)
           .cornerRadius(5)
           .padding(.vertical, 10)
           .onTapGesture {
@@ -111,7 +110,8 @@ struct MainWindowView: View {
             .padding(.horizontal, 10)
             .padding(.vertical, 8)
             .contentShape(Rectangle())
-            .background(self.data.selectedGroup === group ? Color("underpageBackground") : Color.clear)
+            .background(self.data.selectedGroup === group ? selectedColor : nil)
+
             .cornerRadius(5)
             .onTapGesture {
               if self.data.selectedGroup !== group{
@@ -138,12 +138,11 @@ struct MainWindowView: View {
                 .font(.footnote)
               
               Spacer()
-              
-              Button("Reveal in Finder") {
-              }
             }
             .padding(.horizontal)
             .padding(.bottom)
+            
+            Divider()
             
             List {
               ForEach(data.selectedGroup!.items) { item in
@@ -158,6 +157,8 @@ struct MainWindowView: View {
                 )
               }
             }
+//            .background(Color(UIColor.backgroundColor))
+              .background(Color(NSColor.underPageBackgroundColor))
           }
           .frame(minWidth: detailWidth, maxWidth: .infinity)
         }
