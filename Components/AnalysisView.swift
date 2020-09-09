@@ -49,8 +49,9 @@ struct AnalysisView_Previews: PreviewProvider {
   static var previews: some View {
     let data = AppData()
     return VStack{
-      AnalysisView(analysis: data.iosDeviceSupport)
-      AnalysisView(analysis: data.watchOsDeviceSupport)
+//      AnalysisView(analysis: data.iosDeviceSupport)
+//      AnalysisView(analysis: data.watchOsDeviceSupport)
+      AnalysisView(analysis: data.deviceSupport)
       AnalysisView(analysis: data.archives)
       AnalysisView(analysis: data.archives)
       AnalysisView(analysis: data.previews)

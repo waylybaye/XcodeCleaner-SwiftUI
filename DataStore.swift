@@ -60,11 +60,13 @@ func humanize(_ fileSize: UInt64) -> String{
   return humanize
 }
 
-enum AnalysisGroup: String{
-  case archives, simulators, iosDeviceSupport, watchOsDeviceSupport, derivedData, previews, coreSimulatorCaches;
+enum AnalysisGroup: String {
+  case archives, simulators, deviceSupport, iosDeviceSupport, watchOsDeviceSupport, derivedData, previews, coreSimulatorCaches;
   
   func describe() -> (title: String, summary: String) {
     switch self {
+    case .deviceSupport:
+      return ("Device Support", "analysis.iOSDeviceSupport.summary")
     case .archives:
       return ("Archives", "analysis.archives.summary")
     case .simulators:
@@ -91,13 +93,25 @@ class Analysis: ObservableObject {
   
   @Published var totalSize: UInt64 = 0
   @Published var items = [AnalysisItem]()
-  
+  @Published var groupedItems = [AnalysisItemGroup]()
+
   var progress: Double {
     return itemsCount == 0 ? 1 : Double(analyzedCount) / Double(itemsCount)
   }
 
   init(group: AnalysisGroup) {
     self.group = group
+  }
+  
+  func groupItem(_ item: AnalysisItem) {
+    if let groupLabel = item.groupLabel {
+      if let first = groupedItems.firstIndex(where: {$0.group == groupLabel}) {
+        groupedItems[first].items.append(item)
+        
+      } else {
+        groupedItems.append(AnalysisItemGroup(group: groupLabel, totalSize: item.totalSize, items: [item]))
+      }
+    }
   }
 }
 
@@ -108,6 +122,18 @@ struct AnalysisItem: Identifiable {
   let displayName: String
   let totalSize: UInt64
   let modifyDate: Date
+  let groupLabel: String?
+}
+
+struct AnalysisItemGroup: Identifiable {
+  var group: String
+  
+  var id: String {
+    group
+  }
+  
+  var totalSize: UInt64
+  var items: [AnalysisItem]
 }
 
 enum AppError: Error, Identifiable {
@@ -126,8 +152,11 @@ enum AppError: Error, Identifiable {
 
 
 class AppData: ObservableObject {
-  @Published var iosDeviceSupport = Analysis(group: .iosDeviceSupport)
-  @Published var watchOsDeviceSupport = Analysis(group: .watchOsDeviceSupport)
+  @Published var deviceSupport = Analysis(group: .deviceSupport)
+
+//  @Published var iosDeviceSupport = Analysis(group: .iosDeviceSupport)
+//  @Published var watchOsDeviceSupport = Analysis(group: .watchOsDeviceSupport)
+  
   @Published var archives = Analysis(group: .archives)
   @Published var simulators = Analysis(group: .simulators)
   @Published var derivedData = Analysis(group: .derivedData)
@@ -166,8 +195,9 @@ class AppData: ObservableObject {
   
   var groups: [(Analysis, String)] {
     [
-      (iosDeviceSupport, "Xcode/iOS DeviceSupport/"),
-      (watchOsDeviceSupport, "Xcode/watchOS DeviceSupport/"),
+//      (iosDeviceSupport, "Xcode/iOS DeviceSupport/"),
+//      (watchOsDeviceSupport, "Xcode/watchOS DeviceSupport/"),
+      (deviceSupport, "Xcode/"),
       (simulators, "CoreSimulator/Devices/"),
       (previews, "Xcode/UserData/Previews/Simulator Devices/"),
       (derivedData, "Xcode/DerivedData/"),
@@ -239,22 +269,35 @@ class AppData: ObservableObject {
     }
   }
   
-  func analyzeGroup(analysis: Analysis, developerPath path: String) throws {
+  func analyzeGroup(analysis: Analysis, developerPath path: String, depth: Int = 0) throws {
     let fm = FileHelper.standard
     var subDirectories = [String]()
     
     subDirectories = try fm.listDirectory(path, onlyDirectory: true)
 
+    if analysis.group == .coreSimulatorCaches {
+      subDirectories = subDirectories.flatMap { parentPath in
+        (try? fm.listDirectory(parentPath, onlyDirectory: false)) ?? []
+      }
+      
+    } else if analysis.group == .deviceSupport {
+      subDirectories = [
+        path.joinPath("iOS DeviceSupport"),
+        path.joinPath("watchOS DeviceSupport"),
+        path.joinPath("nonExist DeviceSupport"),
+      ]
+      
+      subDirectories = subDirectories.flatMap { parentPath in
+        (try? fm.listDirectory(parentPath, onlyDirectory: false)) ?? []
+      }
+    }
+    
     analysis.totalSize = 0
     analysis.itemsCount = subDirectories.count
     analysis.analyzedCount = 0
 
     DispatchQueue.global(qos: .userInitiated).async {
-      for var subDirectory in subDirectories{
-        if !subDirectory.hasSuffix("/"){
-          subDirectory += "/"
-        }
-        
+      for subDirectory in subDirectories{
         guard let totalSize = try? fm.getDirectorySize(subDirectory) else {
           DispatchQueue.main.async {
             analysis.analyzedCount += 1
@@ -263,10 +306,12 @@ class AppData: ObservableObject {
           continue
         }
         
+        
+        
         var display = String(subDirectory.split(separator: "/").last!)
         
         if analysis.group == .simulators || analysis.group == .previews {
-          if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory + "device.plist")){
+          if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory.joinPath("device.plist"))){
             let name: String = plist["name"] as! String
             var version = String((plist["runtime"] as! String).split(separator: ".").last!)
             version = version.replacingOccurrences(of: "OS-", with: "OS ").replacingOccurrences(of: "-", with: ".")
@@ -276,14 +321,33 @@ class AppData: ObservableObject {
         
         DispatchQueue.main.async {
           self.objectWillChange.send()
+          let groupLabel: String?
           
-          analysis.items.append(
-            AnalysisItem(
-              path: subDirectory, displayName: display,
-              totalSize: totalSize,
-              modifyDate: (try? fm.getDirectoryUpdateDate(subDirectory)) ?? Date(timeIntervalSince1970: 0)
-              )
-          )
+          var names = subDirectory.split(separator: "/")
+          names.removeLast()
+          let parentDirName = String(names.last!)
+          
+          switch analysis.group {
+          case .deviceSupport:
+            groupLabel = parentDirName
+
+          case .coreSimulatorCaches:
+            groupLabel = parentDirName
+
+          default:
+            groupLabel = nil
+          }
+          
+          let item = AnalysisItem(
+            path: subDirectory,
+            displayName: display,
+            totalSize: totalSize,
+            modifyDate: (try? fm.getDirectoryUpdateDate(subDirectory)) ?? Date(timeIntervalSince1970: 0),
+            groupLabel: groupLabel
+            )
+          
+          analysis.items.append(item)
+          analysis.groupItem(item)
           
           analysis.items.sort {
             $0.totalSize > $1.totalSize
@@ -295,6 +359,16 @@ class AppData: ObservableObject {
       }
       
       DispatchQueue.main.async {
+        analysis.groupedItems.sort {
+          $0.totalSize > $1.totalSize
+        }
+        
+        for index in analysis.groupedItems.indices {
+          analysis.groupedItems[index].items.sort {
+            $0.totalSize > $1.totalSize
+          }
+        }
+        
         if self.analyzedCount == self.totalCount {
           self.isAnalyzing = false
           self.isAnalyzed = true

@@ -103,8 +103,12 @@ class FileHelper {
     
     let filenames = try FileManager.default.contentsOfDirectory(atPath: path)
     
-    for filename in filenames{
-      let fullPath = path + filename
+    for filename in filenames {
+      if filename == ".DS_Store" {
+        continue
+      }
+      
+      let fullPath = path.hasSuffix("/") ? path + filename : path + "/" + filename
       var isDirectory = ObjCBool(false)
       FileManager.default.fileExists(atPath: fullPath, isDirectory: &isDirectory)
       
@@ -121,11 +125,28 @@ class FileHelper {
   
   func getDirectorySize(_ path: String) throws -> UInt64{
     var size: UInt64 = 0
+    let fm = FileManager.default
     
-    let contents = FileManager.default.subpaths(atPath: path)
+    var isDirectory = ObjCBool(true)
+    
+    var contents: [String]
+    
+    fm.fileExists(atPath: path, isDirectory: &isDirectory)
+    if isDirectory.boolValue {
+      guard let subpaths = fm.subpaths(atPath: path) else {
+        return 0
+      }
+      
+      contents = subpaths.map { subPath in
+        path.joinPath(subPath)
+      }
 
-    for subpath in contents!{
-      let fileAttrs = try FileManager.default.attributesOfItem(atPath: path + subpath)
+    } else {
+      contents = [path]
+    }
+
+    for subpath in contents {
+      let fileAttrs = try fm.attributesOfItem(atPath: subpath)
       size += fileAttrs[FileAttributeKey.size] as! UInt64
     }
     
@@ -133,8 +154,6 @@ class FileHelper {
   }
   
   func getDirectoryUpdateDate(_ path: String) throws -> Date {
-    var size: UInt64 = 0
-    
     let fileAttrs = try FileManager.default.attributesOfItem(atPath: path)
     return fileAttrs[FileAttributeKey.modificationDate] as! Date
   }

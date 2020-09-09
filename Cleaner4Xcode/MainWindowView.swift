@@ -37,14 +37,14 @@ func ItemRow(
       .lineLimit(1)
     
     Button(action: onReveal) {
+      revealIcon
 //      Image(systemName: "magnifyingglass.circle.fill")
 //      Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
-      revealIcon
     }
     
     Button(action: onTrash) {
-//      Image(systemName: "trash.circle.fill")
       trashIcon
+//      Image(systemName: "trash.circle.fill")
 //      Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
     }
   }
@@ -145,18 +145,44 @@ struct MainWindowView: View {
             Divider()
             
             List {
-              ForEach(data.selectedGroup!.items) { item in
-                ItemRow(
-                  item: item,
-                  onReveal: {
-                    self.revealPath(path: item.path)
-                  },
-                  onTrash: {
-                    self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
+              if data.selectedGroup!.groupedItems.count > 0 {
+                ForEach(data.selectedGroup!.groupedItems) { group in
+                  Section(header:
+                    Text(group.group)
+                      .foregroundColor(.secondary)
+                      .background(Color(NSColor.underPageBackgroundColor))
+                  ) {
+                    
+                  ForEach(group.items) { item in
+                    ItemRow(
+                      item: item,
+                      onReveal: {
+                        self.revealPath(path: item.path)
+                      },
+                      onTrash: {
+                        self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
+                      }
+                    )
                   }
-                )
+                  }
+                }
+                
+              } else {
+                ForEach(data.selectedGroup!.items) { item in
+                  ItemRow(
+                    item: item,
+                    onReveal: {
+                      self.revealPath(path: item.path)
+                    },
+                    onTrash: {
+                      self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
+                    }
+                  )
+                }
               }
             }
+              .id(UUID())
+              // magic fix see: https://stackoverflow.com/questions/62745198
 //            .background(Color(UIColor.backgroundColor))
               .background(Color(NSColor.underPageBackgroundColor))
           }
