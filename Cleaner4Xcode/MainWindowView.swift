@@ -111,7 +111,7 @@ struct MainWindowView: View {
             .padding(.vertical, 8)
             .contentShape(Rectangle())
             .background(self.data.selectedGroup === group ? selectedColor : nil)
-
+//            .foregroundColor(self.data.selectedGroup === group ? .primary : .secondary)
             .cornerRadius(5)
             .onTapGesture {
               if self.data.selectedGroup !== group{
@@ -136,6 +136,7 @@ struct MainWindowView: View {
               Text(LocalizedStringKey(
                     data.selectedGroup!.group.describe().summary))
                 .font(.footnote)
+                .foregroundColor(.secondary)
               
               Spacer()
             }
@@ -144,13 +145,13 @@ struct MainWindowView: View {
             
             Divider()
             
+            
             List {
               if data.selectedGroup!.groupedItems.count > 0 {
                 ForEach(data.selectedGroup!.groupedItems) { group in
                   Section(header:
                     Text(group.group)
                       .foregroundColor(.secondary)
-                      .background(Color(NSColor.underPageBackgroundColor))
                   ) {
                     
                   ForEach(group.items) { item in

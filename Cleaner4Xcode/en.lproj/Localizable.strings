@@ -11,6 +11,7 @@
 "analysis.simulators.summary" = "Your apps' data are stored here. I suggest you run `xcrun simctl delete unavailable` to reduce the size safely.";
 "analysis.derivedData.summary" = "It's safe to clear the entire folder, but you'll need to rebuild your projects after removal.";
 "analysis.previews.summary" = "SwiftUI Previews simulator and data";
+"analysis.simulatorCaches.summary" = "Simulator runtime caches";
 
 
 "sidebar.welcome" = "Welcome";

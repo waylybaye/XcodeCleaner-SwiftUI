@@ -80,7 +80,7 @@ enum AnalysisGroup: String {
     case .previews:
       return ("SwiftUI Previews", "analysis.previews.summary")
     case .coreSimulatorCaches:
-      return ("Caches", "analysis.simulators.caches")
+      return ("Caches", "analysis.simulatorCaches.summary")
     }
   }
 }
@@ -142,7 +142,7 @@ enum AppError: Error, Identifiable {
     case .analyzeError(let error):
       return error
     case .invalidDeveloperPath:
-      return "invalidDeveloeprPath"
+      return "invalidDeveloperPath"
     }
   }
   
@@ -277,8 +277,13 @@ class AppData: ObservableObject {
 
     if analysis.group == .coreSimulatorCaches {
       subDirectories = subDirectories.flatMap { parentPath in
-        (try? fm.listDirectory(parentPath, onlyDirectory: false)) ?? []
+        (try? fm.listDirectory(parentPath, onlyDirectory: true)) ?? []
       }
+      
+    //} else if analysis.group == .archives {
+    //  subDirectories = subDirectories.flatMap { parentPath in
+    //    (try? fm.listDirectory(parentPath, onlyDirectory: true)) ?? []
+    //  }
       
     } else if analysis.group == .deviceSupport {
       subDirectories = [
@@ -306,8 +311,6 @@ class AppData: ObservableObject {
           continue
         }
         
-        
-        
         var display = String(subDirectory.split(separator: "/").last!)
         
         if analysis.group == .simulators || analysis.group == .previews {
@@ -321,7 +324,7 @@ class AppData: ObservableObject {
         
         DispatchQueue.main.async {
           self.objectWillChange.send()
-          let groupLabel: String?
+          var groupLabel: String? = nil
           
           var names = subDirectory.split(separator: "/")
           names.removeLast()
@@ -333,7 +336,14 @@ class AppData: ObservableObject {
 
           case .coreSimulatorCaches:
             groupLabel = parentDirName
-
+            
+          //case .archives:
+          //  if let plist = NSDictionary(contentsOf: URL(fileURLWithPath: subDirectory.joinPath("Info.plist"))){
+          //    let name: String = plist["Name"] as! String
+          //    groupLabel = name
+          //    display = plist["ArchiveVersion"] as? String ?? "unknown"
+          //  }
+            
           default:
             groupLabel = nil
           }
@@ -344,7 +354,7 @@ class AppData: ObservableObject {
             totalSize: totalSize,
             modifyDate: (try? fm.getDirectoryUpdateDate(subDirectory)) ?? Date(timeIntervalSince1970: 0),
             groupLabel: groupLabel
-            )
+          )
           
           analysis.items.append(item)
           analysis.groupItem(item)
