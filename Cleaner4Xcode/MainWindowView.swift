@@ -53,7 +53,8 @@ func ItemRow(
 
 
 struct MainWindowView: View {
-  @ObservedObject var data = AppData()
+//  @ObservedObject var data = AppData()
+  @EnvironmentObject var data: AppData
   
   func onAppear(){
 //    self.data.selectedGroup = data.archives
@@ -64,16 +65,30 @@ struct MainWindowView: View {
     NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: url.path)
   }
   
-  func trashPath(path: String, analysis: Analysis){
+  func trashPath(path: String, analysis: Analysis, groupStr: String = ""){
     let url = URL.init(fileURLWithPath: path, isDirectory: true)
     do {
       try FileManager.default.trashItem(at: url, resultingItemURL: nil)
       self.data.objectWillChange.send()
-      
-      if let index = analysis.items.firstIndex(where: { $0.path == path }) {
-        analysis.items.remove(at: index)
-        analysis.totalSize = analysis.items.reduce(0) {
-          $0 + $1.totalSize
+
+      if groupStr != "" {
+        analysis.groupedItems = analysis.groupedItems.compactMap { group in
+          guard group.group == groupStr, let index = group.items.firstIndex(where: { $0.path == path }) else {
+            return group
+          }
+          print("\(path), \(index)")
+          analysis.items.remove(at: index)
+          analysis.totalSize = analysis.items.reduce(0) {
+            $0 + $1.totalSize
+          }
+          return nil
+        }
+      } else {
+        if let index = analysis.items.firstIndex(where: { $0.path == path }) {
+          analysis.items.remove(at: index)
+          analysis.totalSize = analysis.items.reduce(0) {
+            $0 + $1.totalSize
+          }
         }
       }
     } catch {
@@ -153,18 +168,17 @@ struct MainWindowView: View {
                     Text(group.group)
                       .foregroundColor(.secondary)
                   ) {
-                    
-                  ForEach(group.items) { item in
-                    ItemRow(
-                      item: item,
-                      onReveal: {
-                        self.revealPath(path: item.path)
-                      },
-                      onTrash: {
-                        self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
-                      }
-                    )
-                  }
+                    ForEach(group.items) { item in
+                      ItemRow(
+                        item: item,
+                        onReveal: {
+                          self.revealPath(path: item.path)
+                        },
+                        onTrash: {
+                          self.trashPath(path: item.path, analysis: self.data.selectedGroup!, groupStr: group.group)
+                        }
+                      )
+                    }
                   }
                 }
                 
