@@ -8,8 +8,11 @@
 
 import SwiftUI
 
-let revealIcon = Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
-let trashIcon = Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
+//let revealIcon = Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
+//let trashIcon = Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
+
+let revealIcon = Image(systemName: "magnifyingglass.circle.fill")
+let trashIcon = Image(systemName: "trash.circle.fill")
 
 func ItemRow(
   item: AnalysisItem,
@@ -38,26 +41,19 @@ func ItemRow(
     
     Button(action: onReveal) {
       revealIcon
-//      Image(systemName: "magnifyingglass.circle.fill")
-//      Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
     }
     
     Button(action: onTrash) {
       trashIcon
-//      Image(systemName: "trash.circle.fill")
-//      Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
     }
   }
   .padding(.vertical, 5)
+  .padding(.horizontal, 5)
 }
 
 
-struct MainWindowView: View {
-  @ObservedObject var data = AppData()
-  
-  func onAppear(){
-//    self.data.selectedGroup = data.archives
-  }
+struct ResultsTableView: View {
+  @ObservedObject var analysis: Analysis
   
   func revealPath(path: String){
     let url = URL.init(fileURLWithPath: path, isDirectory: true)
@@ -68,7 +64,7 @@ struct MainWindowView: View {
     let url = URL.init(fileURLWithPath: path, isDirectory: true)
     do {
       try FileManager.default.trashItem(at: url, resultingItemURL: nil)
-      self.data.objectWillChange.send()
+      analysis.objectWillChange.send()
       
       if let index = analysis.items.firstIndex(where: { $0.path == path }) {
         let item = analysis.items.remove(at: index)
@@ -92,6 +88,55 @@ struct MainWindowView: View {
     }
   }
   
+  var body: some View {
+    List {
+      if analysis.groupedItems.count > 0 {
+        ForEach(analysis.groupedItems) { group in
+          Section(header:
+            Text(group.group)
+              .foregroundColor(.secondary)
+          ) {
+            ForEach(group.items) { item in
+              ItemRow(
+                item: item,
+                onReveal: {
+                  self.revealPath(path: item.path)
+                },
+                onTrash: {
+                  self.trashPath(path: item.path, analysis: analysis)
+                }
+              )
+            }
+          }
+        }
+      
+      } else {
+        ForEach(analysis.items) { item in
+          ItemRow(
+            item: item,
+            onReveal: {
+              self.revealPath(path: item.path)
+            },
+            onTrash: {
+              self.trashPath(path: item.path, analysis: analysis)
+            }
+          )
+        }
+      }
+    }
+  }
+}
+
+
+struct MainWindowView: View {
+  @ObservedObject var data = AppData()
+  
+  func onAppear(){
+//    self.data.selectedGroup = data.archives
+  }
+  
+
+  
   var dataView: some View {
     VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top) {
@@ -107,42 +152,9 @@ struct MainWindowView: View {
     
       Divider()
     
-      List {
-        if data.selectedGroup!.groupedItems.count > 0 {
-          ForEach(data.selectedGroup!.groupedItems) { group in
-            Section(header:
-              Text(group.group)
-                .foregroundColor(.secondary)
-            ) {
-              ForEach(group.items) { item in
-                ItemRow(
-                  item: item,
-                  onReveal: {
-                    self.revealPath(path: item.path)
-                  },
-                  onTrash: {
-                    self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
-                  }
-                )
-              }
-            }
-          }
-        
-        } else {
-          ForEach(data.selectedGroup!.items) { item in
-            ItemRow(
-              item: item,
-              onReveal: {
-                self.revealPath(path: item.path)
-              },
-              onTrash: {
-                self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
-              }
-            )
-          }
-        }
-      }
-      .id(UUID())
+      ResultsTableView(analysis: data.selectedGroup!)
+
+//      .id(UUID())
       // magic fix see: https://stackoverflow.com/questions/62745198
 //            .background(Color(UIColor.backgroundColor))
       .background(Color(NSColor.underPageBackgroundColor))
