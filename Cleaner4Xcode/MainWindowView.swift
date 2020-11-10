@@ -71,9 +71,19 @@ struct MainWindowView: View {
       self.data.objectWillChange.send()
       
       if let index = analysis.items.firstIndex(where: { $0.path == path }) {
-        analysis.items.remove(at: index)
+        let item = analysis.items.remove(at: index)
         analysis.totalSize = analysis.items.reduce(0) {
           $0 + $1.totalSize
+        }
+        
+        if item.groupLabel != nil {
+          if let index = analysis.groupedItems.firstIndex(where: { $0.group == item.groupLabel }) {
+            
+            analysis.groupedItems[index].totalSize -= item.totalSize
+            analysis.groupedItems[index].items.removeAll {
+              $0.id == item.id
+            }
+          }
         }
       }
     } catch {
@@ -81,6 +91,66 @@ struct MainWindowView: View {
       print("\(error)")
     }
   }
+  
+  var dataView: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      HStack(alignment: .top) {
+        Text(LocalizedStringKey(
+          data.selectedGroup!.group.describe().summary))
+          .font(.footnote)
+          .foregroundColor(.secondary)
+      
+        Spacer()
+      }
+      .padding(.horizontal)
+      .padding(.bottom)
+    
+      Divider()
+    
+      List {
+        if data.selectedGroup!.groupedItems.count > 0 {
+          ForEach(data.selectedGroup!.groupedItems) { group in
+            Section(header:
+              Text(group.group)
+                .foregroundColor(.secondary)
+            ) {
+              ForEach(group.items) { item in
+                ItemRow(
+                  item: item,
+                  onReveal: {
+                    self.revealPath(path: item.path)
+                  },
+                  onTrash: {
+                    self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
+                  }
+                )
+              }
+            }
+          }
+        
+        } else {
+          ForEach(data.selectedGroup!.items) { item in
+            ItemRow(
+              item: item,
+              onReveal: {
+                self.revealPath(path: item.path)
+              },
+              onTrash: {
+                self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
+              }
+            )
+          }
+        }
+      }
+      .id(UUID())
+      // magic fix see: https://stackoverflow.com/questions/62745198
+//            .background(Color(UIColor.backgroundColor))
+      .background(Color(NSColor.underPageBackgroundColor))
+    }
+    .frame(minWidth: detailWidth, maxWidth: .infinity)
+  }
+  
+  var detailWidth: CGFloat = 500
   
   var body: some View {
     let groups = data.groups.map {$0.0}
@@ -123,76 +193,23 @@ struct MainWindowView: View {
       .listStyle(SidebarListStyle())
       .frame(width: 200)
       
-      ZStack {
-        if data.selectedGroup === nil {
+//      ZStack {
+        if data.selectedGroup == nil {
           WelcomeView()
             .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
+            .navigationTitle("Cleaner for Xcode")
+            .toolbar {
+              EmptyView()
+            }
           
         } else {
-          VStack (alignment: .leading, spacing: 0) {
-            
-            HStack(alignment: .top) {
-              
-              Text(LocalizedStringKey(
-                    data.selectedGroup!.group.describe().summary))
-                .font(.footnote)
-                .foregroundColor(.secondary)
-              
-              Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.bottom)
-            
-            Divider()
-            
-            
-            List {
-              if data.selectedGroup!.groupedItems.count > 0 {
-                ForEach(data.selectedGroup!.groupedItems) { group in
-                  Section(header:
-                    Text(group.group)
-                      .foregroundColor(.secondary)
-                  ) {
-                    
-                  ForEach(group.items) { item in
-                    ItemRow(
-                      item: item,
-                      onReveal: {
-                        self.revealPath(path: item.path)
-                      },
-                      onTrash: {
-                        self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
-                      }
-                    )
-                  }
-                  }
-                }
-                
-              } else {
-                ForEach(data.selectedGroup!.items) { item in
-                  ItemRow(
-                    item: item,
-                    onReveal: {
-                      self.revealPath(path: item.path)
-                    },
-                    onTrash: {
-                      self.trashPath(path: item.path, analysis: self.data.selectedGroup!)
-                    }
-                  )
-                }
-              }
-            }
-              .id(UUID())
-              // magic fix see: https://stackoverflow.com/questions/62745198
-//            .background(Color(UIColor.backgroundColor))
-              .background(Color(NSColor.underPageBackgroundColor))
-          }
-          .frame(minWidth: detailWidth, maxWidth: .infinity)
+          dataView
         }
-      }
+//      }
     }
     .onAppear(perform: self.onAppear)
     .environmentObject(data)
+    .navigationViewStyle(DefaultNavigationViewStyle())
   }
 }
 
