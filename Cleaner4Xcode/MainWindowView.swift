@@ -132,10 +132,7 @@ struct MainWindowView: View {
   @ObservedObject var data = AppData()
   
   func onAppear(){
-//    self.data.selectedGroup = data.archives
   }
-  
-
   
   var dataView: some View {
     VStack(alignment: .leading, spacing: 0) {
@@ -153,11 +150,7 @@ struct MainWindowView: View {
       Divider()
     
       ResultsTableView(analysis: data.selectedGroup!)
-
-//      .id(UUID())
-      // magic fix see: https://stackoverflow.com/questions/62745198
-//            .background(Color(UIColor.backgroundColor))
-      .background(Color(NSColor.underPageBackgroundColor))
+        .background(Color(NSColor.underPageBackgroundColor))
     }
     .frame(minWidth: detailWidth, maxWidth: .infinity)
   }
@@ -183,9 +176,8 @@ struct MainWindowView: View {
           .cornerRadius(5)
           .padding(.vertical, 10)
           .onTapGesture {
-            self.data.selectedGroup = nil;
+            self.data.selectedGroup = nil
           }
-        
         
         ForEach(groups, id: \.group) { group in
           AnalysisView(analysis: group)
@@ -193,10 +185,9 @@ struct MainWindowView: View {
             .padding(.vertical, 8)
             .contentShape(Rectangle())
             .background(self.data.selectedGroup === group ? selectedColor : nil)
-//            .foregroundColor(self.data.selectedGroup === group ? .primary : .secondary)
             .cornerRadius(5)
             .onTapGesture {
-              if self.data.selectedGroup !== group{
+              if self.data.selectedGroup !== group {
                 self.data.selectedGroup = group
               }
             }
@@ -205,19 +196,17 @@ struct MainWindowView: View {
       .listStyle(SidebarListStyle())
       .frame(width: 200)
       
-//      ZStack {
-        if data.selectedGroup == nil {
-          WelcomeView()
-            .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
-            .navigationTitle("Cleaner for Xcode")
-            .toolbar {
-              EmptyView()
-            }
+      if data.selectedGroup == nil {
+        WelcomeView()
+          .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
+          .navigationTitle("Cleaner for Xcode")
+          .toolbar {
+            EmptyView()
+          }
           
-        } else {
-          dataView
-        }
-//      }
+      } else {
+        dataView
+      }
     }
     .onAppear(perform: self.onAppear)
     .environmentObject(data)

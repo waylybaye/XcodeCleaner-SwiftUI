@@ -11,26 +11,22 @@ import SwiftUI
 struct AnalysisView: View {
   @EnvironmentObject var appData: AppData
   @ObservedObject var analysis: Analysis
-  
+
   var body: some View {
     let (title, _) = analysis.group.describe()
-    
+
     return
-      HStack{
+      HStack {
         VStack(alignment: .leading, spacing: 5) {
-//          HStack {
-            Text(title)
-              .font(.subheadline)
-              .foregroundColor(.primary)
-            
-//            Spacer()
-            
-            Text(humanize(analysis.totalSize))
-              .font(Font.headline.monospacedDigit())
-              .bold()
-              .foregroundColor(.pink)
-//          }
-          
+          Text(title)
+            .font(.subheadline)
+            .foregroundColor(.primary)
+
+          Text(humanize(analysis.totalSize))
+            .font(Font.headline.monospacedDigit())
+            .bold()
+            .foregroundColor(.pink)
+
           if analysis.progress > 0 && analysis.progress < 1 {
             ProgressBar(progress: CGFloat(analysis.progress), height: 2)
               .frame(width: 80, height: 2, alignment: .leading)
@@ -39,7 +35,6 @@ struct AnalysisView: View {
             Text("").frame(height: 2)
           }
         }
-//        Spacer()
       }
       .frame(maxWidth: .infinity, alignment: .leading)
   }
@@ -49,8 +44,6 @@ struct AnalysisView_Previews: PreviewProvider {
   static var previews: some View {
     let data = AppData()
     return VStack{
-//      AnalysisView(analysis: data.iosDeviceSupport)
-//      AnalysisView(analysis: data.watchOsDeviceSupport)
       AnalysisView(analysis: data.deviceSupport)
       AnalysisView(analysis: data.archives)
       AnalysisView(analysis: data.archives)
