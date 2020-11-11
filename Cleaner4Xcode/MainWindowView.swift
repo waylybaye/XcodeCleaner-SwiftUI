@@ -67,17 +67,23 @@ struct ResultsTableView: View {
       analysis.objectWillChange.send()
       
       if let index = analysis.items.firstIndex(where: { $0.path == path }) {
+        // 重新计算 analysi 的总大小
         let item = analysis.items.remove(at: index)
         analysis.totalSize = analysis.items.reduce(0) {
           $0 + $1.totalSize
         }
         
+        // 如果有分组，重新计算分组的大小
         if item.groupLabel != nil {
           if let index = analysis.groupedItems.firstIndex(where: { $0.group == item.groupLabel }) {
-            
-            analysis.groupedItems[index].totalSize -= item.totalSize
+
+//            analysis.groupedItems[index].totalSize -= item.totalSize
             analysis.groupedItems[index].items.removeAll {
               $0.id == item.id
+            }
+            
+            analysis.groupedItems[index].totalSize = analysis.groupedItems[index].items.reduce(0) {
+              $0 + $1.totalSize
             }
           }
         }
