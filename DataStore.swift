@@ -289,6 +289,7 @@ class AppData: ObservableObject {
       subDirectories = [
         path.joinPath("iOS DeviceSupport"),
         path.joinPath("watchOS DeviceSupport"),
+        path.joinPath("tvOS DeviceSupport"),
         path.joinPath("nonExist DeviceSupport"),
       ]
       
