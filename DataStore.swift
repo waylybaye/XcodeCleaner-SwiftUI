@@ -290,6 +290,7 @@ class AppData: ObservableObject {
         path.joinPath("iOS DeviceSupport"),
         path.joinPath("watchOS DeviceSupport"),
         path.joinPath("tvOS DeviceSupport"),
+        path.joinPath("macOS DeviceSupport"),
         path.joinPath("nonExist DeviceSupport"),
       ]
       
