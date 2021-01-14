@@ -14,41 +14,45 @@ import SwiftUI
 let revealIcon = Image(systemName: "magnifyingglass.circle.fill")
 let trashIcon = Image(systemName: "trash.circle.fill")
 
-func ItemRow(
-  item: AnalysisItem,
-  onReveal: @escaping () -> Void,
-  onTrash: @escaping () -> Void
-) -> some View {
+struct ItemRow: View {
+  var item: AnalysisItem
+  var onReveal: () -> Void
+  var onTrash: () -> Void
   
-  let dateFormatter = DateFormatter()
-  dateFormatter.dateFormat = "yyyy-MM-dd"
-  
-  return HStack {
-    Text(item.displayName)
-      .font(.subheadline)
-      .lineLimit(1)
-    
-    Spacer()
-    
-    Text(humanize(item.totalSize))
-      .font(.subheadline)
-      .padding(.horizontal)
-    
-    Text(dateFormatter.string(from: item.modifyDate))
-      .foregroundColor(.secondary)
-      .font(Font.subheadline.monospacedDigit())
-      .lineLimit(1)
-    
-    Button(action: onReveal) {
-      revealIcon
-    }
-    
-    Button(action: onTrash) {
-      trashIcon
-    }
+  var dateFormatter: DateFormatter {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    return dateFormatter
   }
-  .padding(.vertical, 5)
-  .padding(.horizontal, 5)
+  
+  var body: some View {
+    HStack {
+      Text(item.displayName)
+        .font(.subheadline)
+        .lineLimit(1)
+    
+      Spacer()
+    
+      Text(humanize(item.totalSize))
+        .font(.subheadline)
+        .padding(.horizontal)
+    
+      Text(dateFormatter.string(from: item.modifyDate))
+        .foregroundColor(.secondary)
+        .font(Font.subheadline.monospacedDigit())
+        .lineLimit(1)
+    
+      Button(action: onReveal) {
+        revealIcon
+      }
+    
+      Button(action: onTrash) {
+        trashIcon
+      }
+    }
+    .padding(.vertical, 5)
+    .padding(.horizontal, 5)
+  }
 }
 
 
