@@ -1,0 +1,28 @@
+/* 
+  Localizable.strings
+  Cleaner4Xcode
+
+  Created by Victor Cleber Laureano on 24/01/21.
+  Copyright © 2021 Baye. All rights reserved.
+*/
+"analysis.iOSDeviceSupport.summary" = "Só precisa manter a última versão do iOS, fique à vontade para remover as versões antigas.";
+"analysis.watchOSDeviceSupport.summary" = "Só precisa manter a versão mais recente do watchOS, fique à vontade para remover as versões antigas.";
+"analysis.archives.summary" = "Você não pode depurar versões implantadas se remover arquivos antigos.";
+"analysis.simulators.summary" = "Os dados de seus aplicativos são armazenados aqui. É sugerido executar `xcrun simctl delete unavailable` para reduzir o tamanho com segurança.";
+"analysis.derivedData.summary" = "É seguro limpar a pasta inteira, mas você precisará rebuildar seus projetos após a remoção.";
+"analysis.previews.summary" = "Dados e SwiftUI simulator Previews";
+"analysis.simulatorCaches.summary" = "Simulator caches de runtime";
+
+
+"sidebar.welcome" = "Bem Vindo";
+"test_i18n" = "test I18N";
+"welcome.need_authorize" = "É necessário acesso a pasta ~/Library/Developer para analisar e limpar arquivos Xcode.";
+
+"welcome.button_analyze" = "Analizar";
+"welcome.button_analyze_again" = "Tentar Novamente";
+"welcome.button_change_location" = "Mudar pasta Developer";
+
+"xcode_not_found_title" = "Xcode não encontrado";
+"xcode_not_found_body" = "Nenhuma instalação do Xcode encontrada na pasta Developer selecionada, normalmente em ~/Library/Developer.";
+"developer_auth_title" = "Escolha a pasta Developer";
+"developer_auth_tip" = "Favor escolher a pasta Developer，você pode usar ⌘ ⇧ G e colocar ~/Library/Developer";
