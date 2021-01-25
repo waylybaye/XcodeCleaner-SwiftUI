@@ -27,6 +27,7 @@
 		3E6EDDEA23680888007D1DB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E6EDDEB236815E5007D1DB6 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Main.strings; sourceTree = "<group>"; };
 		3E6EDDEC236815E5007D1DB6 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9354389125BD685D00F9058E /* pt-br */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-br"; path = "pt-br.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B40296B823558580005B74C7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B4096D20233887E1006E0959 /* Cleaner for Xcode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cleaner for Xcode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4096D23233887E1006E0959 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -165,6 +166,8 @@
 				"zh-Hans",
 				Base,
 				th,
+				"pt-br",
+				"pt-BR",
 			);
 			mainGroup = B4096D17233887E1006E0959;
 			productRefGroup = B4096D21233887E1006E0959 /* Products */;
@@ -227,6 +230,7 @@
 				B4A540D5235244530014B2C8 /* en */,
 				B4A540D7235244550014B2C8 /* zh-Hans */,
 				3E6EDDEC236815E5007D1DB6 /* th */,
+				9354389125BD685D00F9058E /* pt-br */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
