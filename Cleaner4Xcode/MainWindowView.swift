@@ -53,10 +53,10 @@ struct ItemRow: View {
             }
         } else {
             Button(action: onReveal) {
-                Text("Reveal")
+                Text("list.button_reveal")
             }
             Button(action: onTrash) {
-                Text("Delete")
+                Text("list.button_delete")
             }
         }
     }
