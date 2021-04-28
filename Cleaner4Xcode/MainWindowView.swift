@@ -173,7 +173,7 @@ struct MainWindowView: View {
     let selectedColor = Color.pink.opacity(0.2)
     
     return NavigationView {
-      List {
+      VStack {
         Text("sidebar.welcome")
           .font(.body)
           .foregroundColor(.primary)
@@ -203,7 +203,8 @@ struct MainWindowView: View {
             }
         }
       }
-      .listStyle(SidebarListStyle())
+      .padding(.horizontal)
+//      .listStyle(SidebarListStyle())
       .frame(width: 200)
       
       if data.selectedGroup == nil {
