@@ -25,3 +25,6 @@
 "xcode_not_found_body" = "No Xcode installation found in selected Developer directory, it's usually at ~/Library/Developer.";
 "developer_auth_title" = "Choose Developer Directory";
 "developer_auth_tip" = "Please choose Developer directory，you can use ⌘ ⇧ G and input ~/Library/Developer";
+
+"list.button_delete" = "Delete";
+"list.button_reveal" = "Reveal";

@@ -23,3 +23,6 @@
 "xcode_not_found_body" = "ไม่พบการติดตั้ง Xcode ในโฟลเดอร์ Developer ที่เลือก ตามปรกติแล้ว ควรอยู่ที่ ~/Library/Developer";
 "developer_auth_title" = "เลือกโฟลเดอร์ Developer";
 "developer_auth_tip" = "โปรดเลือกโฟลเดอร์ Developer คุณสามารถกด ⌘ ⇧ G และระบุโฟลเดอร์ลงไปว่า ~/Library/Developer";
+
+"list.button_delete" = "ลบ";
+"list.button_reveal" = "เปิดเผย";

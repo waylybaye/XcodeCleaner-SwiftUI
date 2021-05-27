@@ -11,7 +11,9 @@ import SwiftUI
 //let revealIcon = Image(nsImage: NSImage.init(named: NSImage.revealFreestandingTemplateName)!)
 //let trashIcon = Image(nsImage: NSImage.init(named: NSImage.stopProgressFreestandingTemplateName)!)
 
+@available(OSX 11.0, *)
 let revealIcon = Image(systemName: "magnifyingglass.circle.fill")
+@available(OSX 11.0, *)
 let trashIcon = Image(systemName: "trash.circle.fill")
 
 struct ItemRow: View {
@@ -42,13 +44,21 @@ struct ItemRow: View {
         .font(Font.subheadline.monospacedDigit())
         .lineLimit(1)
     
-      Button(action: onReveal) {
-        revealIcon
-      }
-    
-      Button(action: onTrash) {
-        trashIcon
-      }
+        if #available(OSX 11.0, *) {
+            Button(action: onReveal) {
+                revealIcon
+            }
+            Button(action: onTrash) {
+                trashIcon
+            }
+        } else {
+            Button(action: onReveal) {
+                Text("list.button_reveal")
+            }
+            Button(action: onTrash) {
+                Text("list.button_delete")
+            }
+        }
     }
     .padding(.vertical, 5)
     .padding(.horizontal, 5)
@@ -208,12 +218,17 @@ struct MainWindowView: View {
       .frame(width: 200)
       
       if data.selectedGroup == nil {
-        WelcomeView()
-          .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
-          .navigationTitle("Cleaner for Xcode")
-          .toolbar {
-            EmptyView()
-          }
+        if #available(OSX 11.0, *) {
+            WelcomeView()
+                .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
+                .navigationTitle("Cleaner for Xcode")
+                .toolbar {
+                    EmptyView()
+                }
+        } else {
+            WelcomeView()
+                .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
+        }
           
       } else {
         dataView
