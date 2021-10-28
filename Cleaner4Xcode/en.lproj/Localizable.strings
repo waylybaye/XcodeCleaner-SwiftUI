@@ -10,7 +10,7 @@
 "analysis.archives.summary" = "You can't debug deployed versions if you remove old archives.";
 "analysis.simulators.summary" = "Your apps' data are stored here. I suggest you run `xcrun simctl delete unavailable` to reduce the size safely.";
 "analysis.derivedData.summary" = "It's safe to clear the entire folder, but you'll need to rebuild your projects after removal.";
-"analysis.previews.summary" = "SwiftUI Previews simulator and data";
+"analysis.previews.summary" = "SwiftUI Previews simulator and data. I suggest you run `xcrun simctl --set previews delete unavailable` to reduce the size safely.";
 "analysis.simulatorCaches.summary" = "Simulator runtime caches";
 
 
