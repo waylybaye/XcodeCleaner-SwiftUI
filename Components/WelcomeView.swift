@@ -64,7 +64,7 @@ struct WelcomeView: View {
           
           Text("Selected \(appData.selectedDeveloperPath!)")
             .foregroundColor(.secondary)
-            .font(.caption)
+            .font(.body)
           
           Text("welcome.button_change_location")
             .foregroundColor(.pink)
@@ -93,7 +93,7 @@ struct WelcomeView: View {
 
       Text("welcome.need_authorize")
         .multilineTextAlignment(.center)
-        .font(.footnote)
+        .font(.body)
         .foregroundColor(.secondary)
         .padding(.top, 5)
       

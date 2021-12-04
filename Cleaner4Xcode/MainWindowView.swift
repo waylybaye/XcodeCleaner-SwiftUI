@@ -28,18 +28,19 @@ struct ItemRow: View {
   var body: some View {
     HStack {
       Text(item.displayName)
-        .font(.subheadline)
+        .font(.headline)
         .lineLimit(1)
     
       Spacer()
     
       Text(humanize(item.totalSize))
-        .font(.subheadline)
+        .font(.body)
+        .bold()
         .padding(.horizontal)
     
       Text(dateFormatter.string(from: item.modifyDate))
         .foregroundColor(.secondary)
-        .font(Font.subheadline.monospacedDigit())
+        .font(Font.body.monospacedDigit())
         .lineLimit(1)
     
       Button(action: onReveal) {
@@ -103,8 +104,10 @@ struct ResultsTableView: View {
       if analysis.groupedItems.count > 0 {
         ForEach(analysis.groupedItems) { group in
           Section(header:
-            Text(group.group)
-              .foregroundColor(.secondary)
+                    Text(group.group)
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+                    .padding(.vertical)
           ) {
             ForEach(group.items) { item in
               ItemRow(
@@ -147,10 +150,18 @@ struct MainWindowView: View {
   var dataView: some View {
     VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top) {
-        Text(LocalizedStringKey(
-          data.selectedGroup!.group.describe().summary))
-          .font(.footnote)
-          .foregroundColor(.secondary)
+          if #available(macOS 12.0, *) {
+              Text(LocalizedStringKey(
+                data.selectedGroup!.group.describe().summary))
+                  .font(.headline)
+                  .foregroundColor(.secondary)
+                  .textSelection(.enabled)
+          } else {
+              Text(LocalizedStringKey(
+                data.selectedGroup!.group.describe().summary))
+                  .font(.headline)
+                  .foregroundColor(.secondary)
+          }
       
         Spacer()
       }
