@@ -1,5 +1,7 @@
 # Cleaner for Xcode
 
+做了一些易用性上的升级
+
 This is the new `SwiftUI` version of my original `react-native-macos` powered [XcodeCleaner](https://github.com/waylybaye/XcodeCleaner)
 
 ----
