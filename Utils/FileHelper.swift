@@ -127,12 +127,11 @@ class FileHelper {
     var size: UInt64 = 0
     let fm = FileManager.default
     
-    var isDirectory = ObjCBool(true)
-    
     var contents: [String]
     
-    fm.fileExists(atPath: path, isDirectory: &isDirectory)
-    if isDirectory.boolValue {
+    let attribs = try? fm.attributesOfItem(atPath: path)
+    
+    if attribs?[FileAttributeKey.type] as? FileAttributeType == FileAttributeType.typeDirectory {
       guard let subpaths = fm.subpaths(atPath: path) else {
         return 0
       }
