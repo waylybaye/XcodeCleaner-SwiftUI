@@ -156,4 +156,11 @@ class FileHelper {
     let fileAttrs = try FileManager.default.attributesOfItem(atPath: path)
     return fileAttrs[FileAttributeKey.modificationDate] as! Date
   }
+  
+  func isSymbolicLink(_ path: String) throws -> Bool {
+    if let type = try? FileManager.default.attributesOfItem(atPath: path)[.type] as? FileAttributeType {
+      return type == .typeSymbolicLink
+    }
+    return false
+  }
 }
