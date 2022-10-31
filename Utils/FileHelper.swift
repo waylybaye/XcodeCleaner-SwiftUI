@@ -53,7 +53,7 @@ class FileHelper {
     openPanel.canChooseDirectories = true
     openPanel.canCreateDirectories = false
     openPanel.canChooseFiles = false
-    //        openPanel.title = CHOOSE_DEVELOPER_DIR
+    openPanel.directoryURL = URL(fileURLWithPath: FileHelper.standard.getDefaultXcodePath())
     openPanel.message = "\(CHOOSE_DEVELOPER_DIR)\n\(CHOOSE_DEVELOPER_DIR_TIP)"
     openPanel.showsHiddenFiles = true
     openPanel.begin { (result) -> Void in
