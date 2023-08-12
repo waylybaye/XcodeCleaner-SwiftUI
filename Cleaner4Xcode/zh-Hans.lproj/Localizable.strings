@@ -11,6 +11,7 @@
 "welcome.button_analyze" = "开始分析";
 "welcome.button_analyze_again" = "再来一遍";
 "welcome.button_change_location" = "选择其它目录";
+"copy_command_title" = "复制命令";
 
 "analysis.iOSDeviceSupport.summary" = "iOS 真机调试文件，设备通过 USB 连接时会自动生成对应系统版本的调试信息，只需要保留您持有的设备当前的最新版本即可。";
 "analysis.watchOSDeviceSupport.summary" = "watchOS 真机调试文件，设备通过 USB 连接时会自动生成对应系统版本的调试信息，只需要保留您持有的设备当前的最新版本即可。";

@@ -13,7 +13,7 @@ struct AnalysisView: View {
   @ObservedObject var analysis: Analysis
 
   var body: some View {
-    let (title, _) = analysis.group.describe()
+    let (title, _, _) = analysis.group.describe()
 
     return
       HStack {
@@ -23,7 +23,7 @@ struct AnalysisView: View {
             .foregroundColor(.primary)
 
           Text(humanize(analysis.totalSize))
-            .font(Font.headline.monospacedDigit())
+            .font(.headline.monospacedDigit())
             .bold()
             .foregroundColor(.pink)
 

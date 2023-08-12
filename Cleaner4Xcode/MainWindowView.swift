@@ -71,7 +71,7 @@ struct ResultsTableView: View {
       analysis.objectWillChange.send()
       
       if let index = analysis.items.firstIndex(where: { $0.path == path }) {
-        // 重新计算 analysi 的总大小
+        // 重新计算 analysis 的总大小
         let item = analysis.items.remove(at: index)
         analysis.totalSize = analysis.items.reduce(0) {
           $0 + $1.totalSize
@@ -146,12 +146,22 @@ struct MainWindowView: View {
   
   var dataView: some View {
     VStack(alignment: .leading, spacing: 0) {
-      HStack(alignment: .top) {
-        Text(LocalizedStringKey(
-          data.selectedGroup!.group.describe().summary))
+      let group = data.selectedGroup!.group.describe()
+      HStack(alignment: .center) {
+        Text(LocalizedStringKey(group.summary))
           .font(.footnote)
           .foregroundColor(.secondary)
-      
+        if let command = group.command {
+          Button {
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([.string], owner: nil)
+            pasteboard.setString(command, forType: .string)
+          } label: {
+            Text("copy_command_title")
+              .font(.footnote)
+              .foregroundColor(.primary)
+          }
+        }
         Spacer()
       }
       .padding(.horizontal)

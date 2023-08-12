@@ -13,7 +13,7 @@
 "analysis.previews.summary" = "Dados e SwiftUI simulator Previews";
 "analysis.simulatorCaches.summary" = "Simulator caches de runtime";
 
-
+"copy_command_title" = "Copiar comando";
 "sidebar.welcome" = "Bem Vindo";
 "test_i18n" = "test I18N";
 "welcome.need_authorize" = "É necessário acesso a pasta ~/Library/Developer para analisar e limpar arquivos Xcode.";

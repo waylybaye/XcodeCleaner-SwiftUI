@@ -63,24 +63,24 @@ func humanize(_ fileSize: UInt64) -> String{
 enum AnalysisGroup: String {
   case archives, simulators, deviceSupport, iosDeviceSupport, watchOsDeviceSupport, derivedData, previews, coreSimulatorCaches;
   
-  func describe() -> (title: String, summary: String) {
+  func describe() -> (title: String, summary: String, command: String?) {
     switch self {
     case .deviceSupport:
-      return ("Device Support", "analysis.iOSDeviceSupport.summary")
+      return ("Device Support", "analysis.iOSDeviceSupport.summary", nil)
     case .archives:
-      return ("Archives", "analysis.archives.summary")
+      return ("Archives", "analysis.archives.summary", nil)
     case .simulators:
-      return ("Simulators", "analysis.simulators.summary")
+      return ("Simulators", "analysis.simulators.summary", "xcrun simctl delete unavailable")
     case .iosDeviceSupport:
-      return ("iOS DeviceSupport", "analysis.iOSDeviceSupport.summary")
+      return ("iOS DeviceSupport", "analysis.iOSDeviceSupport.summary", nil)
     case .derivedData:
-      return ("DerivedData", "analysis.derivedData.summary")
+      return ("DerivedData", "analysis.derivedData.summary", nil)
     case .watchOsDeviceSupport:
-      return ("watchOS DeviceSupport", "analysis.watchOSDeviceSupport.summary")
+      return ("watchOS DeviceSupport", "analysis.watchOSDeviceSupport.summary", nil)
     case .previews:
-      return ("SwiftUI Previews", "analysis.previews.summary")
+      return ("SwiftUI Previews", "analysis.previews.summary", "xcrun simctl --set previews delete unavailable")
     case .coreSimulatorCaches:
-      return ("Caches", "analysis.simulatorCaches.summary")
+      return ("Caches", "analysis.simulatorCaches.summary", nil)
     }
   }
 }

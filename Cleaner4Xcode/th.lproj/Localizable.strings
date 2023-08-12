@@ -12,6 +12,7 @@
 "analysis.derivedData.summary" = "โฟลเดอร์นี้สามารถลบทิ้ง ทั้งโฟลเดอร์ได้อย่างปลอดภัย คุณเพียงสั่ง rebuild โปรเจคของคุณอีกครั้ง ทุกอย่างก็จะกลับมาปรกติ";
 "analysis.previews.summary" = "SwiftUI Previews simulator and data";
 
+"copy_command_title" = "คัดลอกคำสั่ง";
 "sidebar.welcome" = "หน้าแรก";
 "test_i18n" = "test I18N";
 "welcome.need_authorize" = "ต้องการสิทธิ์ในการเข้าถึง ~/Library/Developer เพื่อวิเคราะห์และทำล้างข้อมูลของ Xcode ที่ไม่จำเป็น";
