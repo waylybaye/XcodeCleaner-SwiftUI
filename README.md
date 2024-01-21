@@ -15,7 +15,7 @@ This app helps you to make your Xcode faster by removing unwanted and deprecated
 
 ## Download
 
-Cleaner for Xcode is available on Mac App Store now, you can get it using the link below. You can also build it by yourself, please refer to `Build` section.
+Cleaner for Xcode is available on Mac App Store. You can also build it by yourself, please refer to `Build` section.
 
 [![Download on Mac App Store](https://tools.applemediaservices.com/api/badges/download-on-the-mac-app-store/white/en-US "Download on Mac App Store")
 ](https://itunes.apple.com/app/cleaner-for-xcode/id1296084683)
