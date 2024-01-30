@@ -13,7 +13,7 @@
 "analysis.previews.summary" = "SwiftUI Previews simulator and data. I suggest you run `xcrun simctl --set previews delete unavailable` to reduce the size safely.";
 "analysis.simulatorCaches.summary" = "Simulator runtime caches";
 
-
+"copy_command_title" = "Copy command";
 "sidebar.welcome" = "Welcome";
 "test_i18n" = "test I18N";
 "welcome.need_authorize" = "Need ~/Library/Developer permission to analyze and clean Xcode files.";
