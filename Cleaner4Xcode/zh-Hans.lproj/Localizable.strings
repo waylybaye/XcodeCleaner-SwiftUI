@@ -25,3 +25,6 @@
 "developer_auth_title" = "选择 Developer 目录";
 "developer_auth_tip" = "请选择 Developer 目录，您可以使用快捷键 ⌘ ⇧ G 调出“前往”输入框并且输入 ~/Library/Developer ";
 "Cancel" =  "取消";
+
+"list.button_delete" = "删除";
+"list.button_reveal" = "揭示";

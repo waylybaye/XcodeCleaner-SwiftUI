@@ -26,3 +26,6 @@
 "xcode_not_found_body" = "Nenhuma instalação do Xcode encontrada na pasta Developer selecionada, normalmente em ~/Library/Developer.";
 "developer_auth_title" = "Escolha a pasta Developer";
 "developer_auth_tip" = "Favor escolher a pasta Developer，você pode usar ⌘ ⇧ G e colocar ~/Library/Developer";
+
+"list.button_delete" = "Deletar";
+"list.button_reveal" = "Abrir";
