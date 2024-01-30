@@ -296,6 +296,9 @@ class AppData: ObservableObject {
       
       subDirectories = subDirectories.flatMap { parentPath in
         (try? fm.listDirectory(parentPath, onlyDirectory: false)) ?? []
+      }.filter { path in
+        let isSymbolicLink = try? fm.isSymbolicLink(path)
+        return !(isSymbolicLink ?? false)
       }
     }
     
