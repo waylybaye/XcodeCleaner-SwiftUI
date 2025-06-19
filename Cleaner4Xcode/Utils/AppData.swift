@@ -213,7 +213,7 @@ class AppData: ObservableObject {
             groupLabel = nil
           }
           
-          let item = AnalysisItem(
+          let item = AssetItem(
             path: subDirectory,
             displayName: display,
             totalSize: totalSize,

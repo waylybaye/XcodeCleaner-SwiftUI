@@ -60,7 +60,7 @@ func humanize(_ fileSize: UInt64) -> String{
   return humanize
 }
 
-enum AnalysisGroup: String {
+enum AssetsCategory: String {
   case archives, simulators, deviceSupport, iosDeviceSupport, watchOsDeviceSupport, derivedData, previews, coreSimulatorCaches;
   
   func describe() -> (title: String, summary: String) {
@@ -86,24 +86,24 @@ enum AnalysisGroup: String {
 }
 
 class Analysis: ObservableObject {
-  let group: AnalysisGroup
+  let group: AssetsCategory
   
   @Published var itemsCount: Int = 0
   @Published var analyzedCount: Int = 0
   
   @Published var totalSize: UInt64 = 0
-  @Published var items = [AnalysisItem]()
+  @Published var items = [AssetItem]()
   @Published var groupedItems = [AnalysisItemGroup]()
 
   var progress: Double {
     return itemsCount == 0 ? 1 : Double(analyzedCount) / Double(itemsCount)
   }
 
-  init(group: AnalysisGroup) {
+  init(group: AssetsCategory) {
     self.group = group
   }
   
-  func groupItem(_ item: AnalysisItem) {
+  func groupItem(_ item: AssetItem) {
     if let groupLabel = item.groupLabel {
       if let first = groupedItems.firstIndex(where: {$0.group == groupLabel}) {
         groupedItems[first].items.append(item)
@@ -115,7 +115,7 @@ class Analysis: ObservableObject {
   }
 }
 
-struct AnalysisItem: Identifiable {
+struct AssetItem: Identifiable {
   var id = UUID()
   
   let path: String
@@ -133,7 +133,7 @@ struct AnalysisItemGroup: Identifiable {
   }
   
   var totalSize: UInt64
-  var items: [AnalysisItem]
+  var items: [AssetItem]
 }
 
 
