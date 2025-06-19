@@ -8,16 +8,6 @@
 import Cocoa
 import Foundation
 
-extension String {
-  func joinPath(_ subPath: String) -> String {
-    if self.hasSuffix("/") {
-      return self + subPath
-    }
-    return self + "/" + subPath
-  }
-}
-
-
 class FileHelper {
   public static let standard = FileHelper()
   
