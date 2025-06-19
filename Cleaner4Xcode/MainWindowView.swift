@@ -15,7 +15,7 @@ let revealIcon = Image(systemName: "magnifyingglass.circle.fill")
 let trashIcon = Image(systemName: "trash.circle.fill")
 
 struct ItemRow: View {
-  var item: AnalysisItem
+  var item: AssetItem
   var onReveal: () -> Void
   var onTrash: () -> Void
   
