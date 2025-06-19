@@ -60,30 +60,6 @@ func humanize(_ fileSize: UInt64) -> String{
   return humanize
 }
 
-enum AssetsCategory: String {
-  case archives, simulators, deviceSupport, iosDeviceSupport, watchOsDeviceSupport, derivedData, previews, coreSimulatorCaches;
-  
-  func describe() -> (title: String, summary: String) {
-    switch self {
-    case .deviceSupport:
-      return ("Device Support", "analysis.iOSDeviceSupport.summary")
-    case .archives:
-      return ("Archives", "analysis.archives.summary")
-    case .simulators:
-      return ("Simulators", "analysis.simulators.summary")
-    case .iosDeviceSupport:
-      return ("iOS DeviceSupport", "analysis.iOSDeviceSupport.summary")
-    case .derivedData:
-      return ("DerivedData", "analysis.derivedData.summary")
-    case .watchOsDeviceSupport:
-      return ("watchOS DeviceSupport", "analysis.watchOSDeviceSupport.summary")
-    case .previews:
-      return ("SwiftUI Previews", "analysis.previews.summary")
-    case .coreSimulatorCaches:
-      return ("Caches", "analysis.simulatorCaches.summary")
-    }
-  }
-}
 
 class Analysis: ObservableObject {
   let group: AssetsCategory
@@ -113,16 +89,6 @@ class Analysis: ObservableObject {
       }
     }
   }
-}
-
-struct AssetItem: Identifiable {
-  var id = UUID()
-  
-  let path: String
-  let displayName: String
-  let totalSize: UInt64
-  let modifyDate: Date
-  let groupLabel: String?
 }
 
 struct AnalysisItemGroup: Identifiable {
