@@ -18,7 +18,7 @@
 "test_i18n" = "test I18N";
 "welcome.need_authorize" = "Need ~/Library/Developer permission to analyze and clean Xcode files.";
 "welcome.button_analyze" = "Analyze";
-"welcome.button_analyze_again" = "Try Again";
+"welcome.button_analyze_again" = "Analyze Again";
 "welcome.button_change_location" = "Change Developer Location";
 
 "xcode_not_found_title" = "Xcode not found";
