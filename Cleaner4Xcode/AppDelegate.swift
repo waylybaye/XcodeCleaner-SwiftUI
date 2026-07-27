@@ -38,7 +38,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       ],
       backing: .buffered, defer: false)
     window.titlebarAppearsTransparent = true
-    window.titleVisibility = .hidden
+    // 标题栏用来显示当前分类名（由 SwiftUI 的 navigationTitle 驱动），所以不能隐藏。
+    window.titleVisibility = .visible
     window.center()
     window.setFrameAutosaveName("Cleaner for Xcode")
     window.contentView = NSHostingView(rootView: contentView)

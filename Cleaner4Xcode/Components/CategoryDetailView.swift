@@ -15,9 +15,11 @@ struct CategoryDetailView: View {
   var minWidth: CGFloat = 500
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
+    let (title, summary) = analysis.group.describe()
+
+    return VStack(alignment: .leading, spacing: 0) {
       HStack(alignment: .top) {
-        Text(LocalizedStringKey(analysis.group.describe().summary))
+        Text(LocalizedStringKey(summary))
           .font(.footnote)
           .foregroundColor(.secondary)
 
@@ -32,5 +34,8 @@ struct CategoryDetailView: View {
         .background(Color(NSColor.underPageBackgroundColor))
     }
     .frame(minWidth: minWidth, maxWidth: .infinity)
+    // 分类名显示在窗口标题栏，而非内容区，避免和下方的 summary 说明挤在一起。
+    // 体积不重复显示，侧栏里已经有了。
+    .navigationTitle(title)
   }
 }
