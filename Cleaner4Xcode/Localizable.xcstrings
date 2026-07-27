@@ -1,0 +1,516 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "analysis.archives.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can't debug deployed versions if you remove old archives."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não pode depurar versões implantadas se remover arquivos antigos."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ถ้าคุณลบ archives เก่า คุณอาจไม่สามารถกลับมา Debug เวอร์ชั่นที่ถูกปล่อยไปแล้วได้"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用每个版本的归档文件，收集到崩溃日志后需要其中的 dSYM 文件来定位源代码，dSYM 也可以通过开发者后台来下载，所以根据个人需要决定是否保留。"
+          }
+        }
+      }
+    },
+    "analysis.derivedData.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's safe to clear the entire folder, but you'll need to rebuild your projects after removal."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É seguro limpar a pasta inteira, mas você precisará rebuildar seus projetos após a remoção."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "โฟลเดอร์นี้สามารถลบทิ้ง ทั้งโฟลเดอร์ได้อย่างปลอดภัย คุณเพียงสั่ง rebuild โปรเจคของคุณอีกครั้ง ทุกอย่างก็จะกลับมาปรกติ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目的一些索引及缓存文件，可以安全删除，删除后再次打开项目时会自动重新生成。"
+          }
+        }
+      }
+    },
+    "analysis.iOSDeviceSupport.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only need to keep the latest iOS version, feel free to remove old versions."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só precisa manter a última versão do iOS, fique à vontade para remover as versões antigas."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS เวอร์ชั่นล่าสุดเท่านั้นที่จะถูกใช้ คุณสามารถลบเวอร์ชั่นเก่าได้"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS 真机调试文件，设备通过 USB 连接时会自动生成对应系统版本的调试信息，只需要保留您持有的设备当前的最新版本即可。"
+          }
+        }
+      }
+    },
+    "analysis.previews.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SwiftUI Previews simulator and data. I suggest you run `xcrun simctl --set previews delete unavailable` to reduce the size safely."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dados e SwiftUI simulator Previews"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SwiftUI Previews simulator and data"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SwiftUI 预览的模拟器和数据，建议使用 `xcrun simctl --set previews delete unavailable` 自动清理。"
+          }
+        }
+      }
+    },
+    "analysis.simulatorCaches.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simulator runtime caches"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simulator caches de runtime"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模拟器运行时的缓存文件"
+          }
+        }
+      }
+    },
+    "analysis.simulators.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your apps' data are stored here. I suggest you run `xcrun simctl delete unavailable` to reduce the size safely."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os dados de seus aplicativos são armazenados aqui. É sugerido executar `xcrun simctl delete unavailable` para reduzir o tamanho com segurança."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "apps' data ของคุณเก็บไว้ที่นี่ ฉันแนะนำว่าคุณควรรันคำสั่ง `xcrun simctl delete unavailable` แทน เพื่อลบไฟล์อย่างปลอดภัย"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模拟器中安装应用的数据保存在这里，建议使用 `xcrun simctl delete unavailable` 自动清理。"
+          }
+        }
+      }
+    },
+    "analysis.watchOSDeviceSupport.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only need to keep the latest watchOS version, feel free to remove old versions."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só precisa manter a versão mais recente do watchOS, fique à vontade para remover as versões antigas."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "watchOS เวอร์ชั่นล่าสุดเท่านั้นที่จะถูกใช้ คุณสามารถลบเวอร์ชั่นเก่าได้"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "watchOS 真机调试文件，设备通过 USB 连接时会自动生成对应系统版本的调试信息，只需要保留您持有的设备当前的最新版本即可。"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消"
+          }
+        }
+      }
+    },
+    "Cleaner for Xcode" : {
+
+    },
+    "developer_auth_tip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please choose Developer directory，you can use ⌘ ⇧ G and input ~/Library/Developer"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favor escolher a pasta Developer，você pode usar ⌘ ⇧ G e colocar ~/Library/Developer"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "โปรดเลือกโฟลเดอร์ Developer คุณสามารถกด ⌘ ⇧ G และระบุโฟลเดอร์ลงไปว่า ~/Library/Developer"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选择 Developer 目录，您可以使用快捷键 ⌘ ⇧ G 调出“前往”输入框并且输入 ~/Library/Developer "
+          }
+        }
+      }
+    },
+    "developer_auth_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Developer Directory"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha a pasta Developer"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เลือกโฟลเดอร์ Developer"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择 Developer 目录"
+          }
+        }
+      }
+    },
+    "Error" : {
+
+    },
+    "Selected %@" : {
+
+    },
+    "sidebar.welcome" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bem Vindo"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "หน้าแรก"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欢迎"
+          }
+        }
+      }
+    },
+    "test_i18n" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "test I18N"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "test I18N"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "test I18N"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测试 I18N"
+          }
+        }
+      }
+    },
+    "welcome.button_analyze" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analizar"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "วิเคราะห์"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始分析"
+          }
+        }
+      }
+    },
+    "welcome.button_analyze_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar Novamente"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ลองอีกครั้ง"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再来一遍"
+          }
+        }
+      }
+    },
+    "welcome.button_change_location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change Developer Location"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mudar pasta Developer"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เลือกโฟลเดอร์ Developer ใหม่"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择其它目录"
+          }
+        }
+      }
+    },
+    "welcome.need_authorize" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Need ~/Library/Developer permission to analyze and clean Xcode files."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É necessário acesso a pasta ~/Library/Developer para analisar e limpar arquivos Xcode."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ต้องการสิทธิ์ในการเข้าถึง ~/Library/Developer เพื่อวิเคราะห์และทำล้างข้อมูลของ Xcode ที่ไม่จำเป็น"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要您对 ~/Library/Developer 进行授权才可以分析该文件夹"
+          }
+        }
+      }
+    },
+    "xcode_not_found_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Xcode installation found in selected Developer directory, it's usually at ~/Library/Developer."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma instalação do Xcode encontrada na pasta Developer selecionada, normalmente em ~/Library/Developer."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ไม่พบการติดตั้ง Xcode ในโฟลเดอร์ Developer ที่เลือก ตามปรกติแล้ว ควรอยู่ที่ ~/Library/Developer"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能在指定目录中找到 Xcode，Developer 目录一般在 ~/Library/Developer 目录下"
+          }
+        }
+      }
+    },
+    "xcode_not_found_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xcode not found"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xcode não encontrado"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ไม่พบ Xcode"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能在指定目录中找到 Xcode"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.2"
+}
