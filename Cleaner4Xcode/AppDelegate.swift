@@ -34,8 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         .closable,
         .miniaturizable,
         .resizable,
-        .fullSizeContentView,
-        .borderless
+        .fullSizeContentView
       ],
       backing: .buffered, defer: false)
     window.titlebarAppearsTransparent = true

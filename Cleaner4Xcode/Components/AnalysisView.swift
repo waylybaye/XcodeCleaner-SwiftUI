@@ -17,7 +17,7 @@ struct AnalysisView: View {
 
     return
       HStack {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 6) {
           Text(title)
             .font(.subheadline)
             .foregroundColor(.primary)

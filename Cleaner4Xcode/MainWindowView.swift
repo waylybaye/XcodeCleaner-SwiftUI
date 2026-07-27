@@ -18,25 +18,23 @@ struct MainWindowView: View {
   var detailWidth: CGFloat = 550
 
   var body: some View {
-    NavigationView {
+    NavigationSplitView {
       SidebarView(data: data)
+        .navigationSplitViewColumnWidth(min: 180, ideal: 200, max: 260)
 
-      if data.selectedGroup == nil {
+    } detail: {
+      if let selected = data.selectedGroup {
+        // 详情面板沿用原有的 500 最小宽度（与欢迎页的 550 不同）
+        CategoryDetailView(analysis: selected)
+
+      } else {
         WelcomeView()
           .frame(minWidth: detailWidth, maxWidth: .infinity, maxHeight: .infinity)
           .navigationTitle("Cleaner for Xcode")
-          .toolbar {
-            EmptyView()
-          }
-
-      } else {
-        // 详情面板沿用原有的 500 最小宽度（与欢迎页的 550 不同）
-        CategoryDetailView(analysis: data.selectedGroup!)
       }
     }
     .onAppear(perform: self.onAppear)
     .environmentObject(data)
-    .navigationViewStyle(DefaultNavigationViewStyle())
   }
 }
 
