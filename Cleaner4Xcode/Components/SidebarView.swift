@@ -26,7 +26,7 @@ struct SidebarView: View {
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: rowSpacing) {
-        row(isSelected: data.selectedGroup == nil) {
+        row(isSelected: data.selectedGroup == nil, shortcutIndex: 1) {
           data.selectedGroup = nil
         } content: {
           Text("sidebar.welcome")
@@ -35,10 +35,11 @@ struct SidebarView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
 
-        ForEach(data.groups, id: \.0.group) { pair in
+        ForEach(Array(data.groups.enumerated()), id: \.element.0.group) { index, pair in
           let analysis = pair.0
 
-          row(isSelected: data.selectedGroup === analysis) {
+          // 欢迎项占用 ⌘1，分类从 ⌘2 开始。
+          row(isSelected: data.selectedGroup === analysis, shortcutIndex: index + 2) {
             if data.selectedGroup !== analysis {
               data.selectedGroup = analysis
             }
@@ -54,19 +55,40 @@ struct SidebarView: View {
   }
 
   /// 统一的行容器：负责留白、选中背景与点击区域。
+  ///
+  /// 用 `Button` 而非 `onTapGesture`，这样可以直接挂 `.keyboardShortcut`，
+  /// 让 ⌘1~⌘9 与鼠标点击走完全相同的一条选中逻辑。
+  /// `shortcutIndex` 超出 1...9 时不绑定快捷键（预留分类继续增加的情况）。
   private func row<Content: View>(
     isSelected: Bool,
+    shortcutIndex: Int,
     action: @escaping () -> Void,
     @ViewBuilder content: () -> Content
   ) -> some View {
-    content()
-      .padding(rowPadding)
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .background(
-        RoundedRectangle(cornerRadius: cornerRadius)
-          .fill(isSelected ? selectedColor : .clear)
-      )
-      .contentShape(Rectangle())
-      .onTapGesture(perform: action)
+    Button(action: action) {
+      content()
+        .padding(rowPadding)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+          RoundedRectangle(cornerRadius: cornerRadius)
+            .fill(isSelected ? selectedColor : .clear)
+        )
+        .contentShape(Rectangle())
+    }
+    .buttonStyle(.plain)
+    .modifier(NumberKeyShortcut(index: shortcutIndex))
+  }
+}
+
+/// 把序号映射为 ⌘<数字> 快捷键；序号不在 1...9 内则原样返回视图。
+private struct NumberKeyShortcut: ViewModifier {
+  let index: Int
+
+  func body(content: Content) -> some View {
+    if let character = (1...9).contains(index) ? Character("\(index)") : nil {
+      content.keyboardShortcut(KeyEquivalent(character), modifiers: .command)
+    } else {
+      content
+    }
   }
 }
